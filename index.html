@@ -47,8 +47,8 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .wheel{position:relative;width:370px;height:370px;touch-action:none}
 .wheel-item{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;cursor:pointer;background:#0a0a0a}
 .wheel-item video{width:100%;height:100%;object-fit:cover;pointer-events:none}
-.glass-panel{position:absolute;left:0;right:0;bottom:0;height:50%;background:rgba(0,0,0,0.42);-webkit-backdrop-filter:blur(36px) saturate(1.2);backdrop-filter:blur(36px) saturate(1.2);z-index:10;will-change:height;opacity:0}
-.glass-content{position:absolute;left:0;right:0;bottom:0;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 28px 40px;height:50%;will-change:height;opacity:0}
+.glass-panel{position:absolute;left:0;right:0;bottom:0;height:100%;background:rgba(0,0,0,0.42);-webkit-backdrop-filter:blur(36px) saturate(1.2);backdrop-filter:blur(36px) saturate(1.2);z-index:10;will-change:transform;transform:translateY(50%);opacity:0}
+.glass-content{position:absolute;left:0;right:0;bottom:0;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 28px 40px;height:100%;will-change:transform;transform:translateY(50%);opacity:0}
 .glass-welcome{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-bottom:28px;letter-spacing:0.02em}
 .glass-headline{font-size:34px;font-weight:500;line-height:1.08;letter-spacing:-0.025em;margin-bottom:12px}
 .glass-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;max-width:300px;margin-bottom:28px}
@@ -322,23 +322,24 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   wheel.addEventListener('pointercancel',function(){wDrag=false});
   animWheel();
 
-  // === SCROLL-DRIVEN GLASS (lerp for smoothness) ===
+  // === SCROLL-DRIVEN GLASS (transform-based, zero layout cost) ===
   var heroEl=document.getElementById('hero');
-  var targetH=50,currentH=50;
+  var targetY=50,currentY=50;
 
   function updateTarget(){
     var top=heroEl.getBoundingClientRect().top;
     var travel=heroEl.offsetHeight-window.innerHeight;
     var p=Math.max(0,Math.min(1,-top/travel));
-    targetH=50+p*50;
+    targetY=50-p*50;
   }
 
   function animGlass(){
-    var d=targetH-currentH;
-    if(d>0.08||d<-0.08){
-      currentH+=d*0.12;
-      glassPanel.style.height=currentH+'%';
-      glassContentEl.style.height=currentH+'%';
+    var d=targetY-currentY;
+    if(d>0.05||d<-0.05){
+      currentY+=d*0.1;
+      var t='translateY('+currentY+'%)';
+      glassPanel.style.transform=t;
+      glassContentEl.style.transform=t;
     }
     requestAnimationFrame(animGlass);
   }

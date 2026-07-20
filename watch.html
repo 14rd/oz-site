@@ -5,528 +5,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>OZ — Watch</title>
 <style>
-@font-face {
-  font-family: 'NeueHaasDisplay';
-  src: local('Neue Haas Grotesk Display Pro'), local('NeueHaasDisplay-Roman'), local('Helvetica Neue');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NeueHaasDisplay';
-  src: local('Neue Haas Grotesk Display Pro Medium'), local('NeueHaasDisplay-Medium'), local('Helvetica Neue Medium');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NeueHaasDisplay';
-  src: local('Neue Haas Grotesk Display Pro Bold'), local('NeueHaasDisplay-Bold'), local('Helvetica Neue Bold');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'NeueHaasText';
-  src: local('Neue Haas Grotesk Text Pro'), local('NeueHaasText-Roman'), local('Helvetica Neue');
-  font-weight: 400;
-  font-style: normal;
-}
+@font-face{font-family:'NeueHaasDisplay';src:local('Neue Haas Grotesk Display Pro'),local('NeueHaasDisplay-Roman'),local('Helvetica Neue');font-weight:400;font-style:normal}
+@font-face{font-family:'NeueHaasDisplay';src:local('Neue Haas Grotesk Display Pro Medium'),local('NeueHaasDisplay-Medium'),local('Helvetica Neue Medium');font-weight:500;font-style:normal}
+@font-face{font-family:'NeueHaasDisplay';src:local('Neue Haas Grotesk Display Pro Bold'),local('NeueHaasDisplay-Bold'),local('Helvetica Neue Bold');font-weight:700;font-style:normal}
+@font-face{font-family:'NeueHaasText';src:local('Neue Haas Grotesk Text Pro'),local('NeueHaasText-Roman'),local('Helvetica Neue');font-weight:400;font-style:normal}
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
+body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;background:#000;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;min-height:100dvh}
 
-:root {
-  --sat: env(safe-area-inset-top, 0px);
-  --sab: env(safe-area-inset-bottom, 0px);
-}
+.header{position:fixed;top:0;left:0;right:0;z-index:200;padding:calc(14px + var(--sat)) 20px 14px;display:flex;align-items:center;justify-content:space-between;gap:14px;pointer-events:none}
+.header>*{pointer-events:auto}
+.header-logo{font-size:22px;font-weight:700;letter-spacing:-0.04em;flex-shrink:0;cursor:pointer;text-decoration:none;color:#fff}
+.search-bar{flex:1;max-width:280px;height:38px;border:1px solid rgba(255,255,255,0.15);border-radius:100px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color 0.3s;background:rgba(0,0,0,0.25);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3)}
+.search-bar:hover{border-color:rgba(255,255,255,0.35)}
+.search-bar svg{width:15px;height:15px;stroke:rgba(255,255,255,0.4)}
+.profile-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;cursor:pointer;transition:border-color 0.3s;background:rgba(0,0,0,0.25);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3);text-decoration:none;color:#fff}
+.profile-btn:hover{border-color:rgba(255,255,255,0.35)}
 
-body {
-  font-family: 'NeueHaasDisplay', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #000;
-  color: #fff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  min-height: 100dvh;
-}
+.watch-hero{position:relative;height:65dvh;overflow:hidden;opacity:0;animation:fadeIn 1s cubic-bezier(0.16,1,0.3,1) 0.1s forwards}
+.watch-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.watch-hero-gradient{position:absolute;inset:0;background:linear-gradient(to top,#000 0%,rgba(0,0,0,0.4) 40%,rgba(0,0,0,0.1) 100%)}
+.watch-hero-content{position:absolute;bottom:0;left:0;right:0;padding:0 24px 32px;z-index:2}
+.watch-hero-tag{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:400;color:rgba(255,255,255,0.5);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px}
+.watch-hero-title{font-size:32px;font-weight:500;letter-spacing:-0.025em;line-height:1.1;margin-bottom:8px}
+.watch-hero-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:20px;max-width:300px}
+.watch-hero-actions{display:flex;gap:10px}
+.play-btn{display:inline-flex;align-items:center;gap:10px;padding:13px 28px;background:#fff;color:#000;border:none;border-radius:100px;font-family:inherit;font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s,transform 0.2s}
+.play-btn:hover{opacity:0.9;transform:scale(1.02)}
+.play-btn:active{transform:scale(0.98)}
+.play-btn svg{width:16px;height:16px}
+.info-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color 0.2s}
+.info-btn:hover{border-color:rgba(255,255,255,0.5)}
+.info-btn svg{width:16px;height:16px;stroke:#fff}
 
-/* ===== HEADER ===== */
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 200;
-  padding: calc(14px + var(--sat)) 20px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  pointer-events: none;
-}
+.watch-rows{position:relative;padding:0 0 20px}
+.watch-row{padding:28px 0 8px;opacity:0;transform:translateY(24px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+.watch-row.revealed{opacity:1;transform:translateY(0)}
+.row-title{font-size:16px;font-weight:500;letter-spacing:-0.01em;padding:0 24px;margin-bottom:16px}
+.row-track{display:flex;gap:10px;padding:0 24px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.row-track::-webkit-scrollbar{display:none}
+.row-card{flex-shrink:0;width:140px;cursor:pointer;transition:transform 0.2s;text-decoration:none;color:#fff}
+.row-card:hover{transform:scale(1.04)}
+.row-card-thumb{width:140px;height:200px;border-radius:10px;overflow:hidden;background:#0a0a0a;position:relative;margin-bottom:8px}
+.row-card-thumb video{width:100%;height:100%;object-fit:cover}
+.row-card-thumb .thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 50%);display:flex;align-items:flex-end;padding:10px}
+.row-card-ep{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase}
+.row-card-title{font-size:13px;font-weight:500;letter-spacing:-0.005em}
+.row-card-meta{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px}
 
-.header > * { pointer-events: auto; }
-
-.header-logo {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  flex-shrink: 0;
-  cursor: pointer;
-  text-decoration: none;
-  color: #fff;
-}
-
-.search-bar {
-  flex: 1;
-  max-width: 280px;
-  height: 38px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  background: rgba(0,0,0,0.25);
-  -webkit-backdrop-filter: blur(24px) saturate(1.3);
-  backdrop-filter: blur(24px) saturate(1.3);
-}
-
-.search-bar:hover { border-color: rgba(255,255,255,0.35); }
-
-.search-bar svg {
-  width: 15px;
-  height: 15px;
-  stroke: rgba(255,255,255,0.4);
-}
-
-.profile-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 500;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  background: rgba(0,0,0,0.25);
-  -webkit-backdrop-filter: blur(24px) saturate(1.3);
-  backdrop-filter: blur(24px) saturate(1.3);
-  text-decoration: none;
-  color: #fff;
-}
-
-.profile-btn:hover { border-color: rgba(255,255,255,0.35); }
-
-/* ===== FEATURED HERO ===== */
-.watch-hero {
-  position: relative;
-  height: 65dvh;
-  overflow: hidden;
-  opacity: 0;
-  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-}
-
-.watch-hero video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.watch-hero-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 100%);
-}
-
-.watch-hero-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0 24px 32px;
-  z-index: 2;
-}
-
-.watch-hero-tag {
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.watch-hero-title {
-  font-size: 32px;
-  font-weight: 500;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  margin-bottom: 8px;
-}
-
-.watch-hero-sub {
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.5;
-  margin-bottom: 20px;
-  max-width: 300px;
-}
-
-.watch-hero-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.play-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 28px;
-  background: #fff;
-  color: #000;
-  border: none;
-  border-radius: 100px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-.play-btn:hover { opacity: 0.9; transform: scale(1.02); }
-.play-btn:active { transform: scale(0.98); }
-.play-btn svg { width: 16px; height: 16px; }
-
-.info-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.info-btn:hover { border-color: rgba(255,255,255,0.5); }
-.info-btn svg { width: 16px; height: 16px; stroke: #fff; }
-
-/* ===== ROWS ===== */
-.watch-rows {
-  position: relative;
-  padding: 0 0 20px;
-}
-
-.watch-row {
-  padding: 28px 0 8px;
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.watch-row.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.row-title {
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  padding: 0 24px;
-  margin-bottom: 16px;
-}
-
-.row-track {
-  display: flex;
-  gap: 10px;
-  padding: 0 24px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.row-track::-webkit-scrollbar { display: none; }
-
-.row-card {
-  flex-shrink: 0;
-  width: 140px;
-  cursor: pointer;
-  transition: transform 0.2s, opacity 0.2s;
-  text-decoration: none;
-  color: #fff;
-}
-
-.row-card:hover { transform: scale(1.04); }
-
-.row-card-thumb {
-  width: 140px;
-  height: 200px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #111;
-  position: relative;
-  margin-bottom: 8px;
-}
-
-.row-card-thumb video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.row-card-thumb .thumb-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
-  display: flex;
-  align-items: flex-end;
-  padding: 10px;
-}
-
-.row-card-ep {
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 9px;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.row-card-title {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-}
-
-.row-card-meta {
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 10px;
-  color: rgba(255,255,255,0.4);
-  margin-top: 2px;
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 28px 24px calc(28px + var(--sab));
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.footer-logo {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.footer-links a {
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover { color: #fff; }
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
+.footer{border-top:1px solid rgba(255,255,255,0.06);padding:28px 24px calc(28px + var(--sab));display:flex;align-items:flex-start;justify-content:space-between}
+.footer-logo{font-size:18px;font-weight:700;letter-spacing:-0.04em}
+.footer-links{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.footer-links a{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,0.5);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.footer-links a:hover{color:#fff}
+@keyframes fadeIn{to{opacity:1}}
 </style>
 </head>
 <body>
 
 <header class="header">
   <a href="index.html" class="header-logo">OZ</a>
-  <div class="search-bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-  </div>
+  <div class="search-bar"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></div>
   <a href="profile.html" class="profile-btn">E</a>
 </header>
 
 <section class="watch-hero" id="watchHero"></section>
-
 <div class="watch-rows" id="watchRows"></div>
 
 <footer class="footer">
   <div class="footer-logo">OZ</div>
-  <div class="footer-links">
-    <a href="watch.html">Watch</a>
-    <a href="#">Privacy Policy</a>
-  </div>
+  <div class="footer-links"><a href="watch.html">Watch</a><a href="#">Privacy Policy</a></div>
 </footer>
 
 <script>
-(function() {
-  if (sessionStorage.getItem('oz_auth') !== '1') {
-    window.location.href = 'login.html';
-    return;
-  }
+(function(){
+  if(sessionStorage.getItem('oz_auth')!=='1'){window.location.href='login.html';return}
 
-  const VIDEOS = [
-    'assets/newvideos/v09044g40000cpjiudvog65uits9edag.mp4',
-    'assets/newvideos/v12044gd0000cv3phmfog65o2ru4trag.mp4',
-    'assets/newvideos/v14044g50000ctlcd37og65u8r34q9t0.mp4',
-    'assets/newvideos/v1c044g50000d7l4pmvog65mvpm1tb4g.mp4',
-    'assets/newvideos/v24044gl0000d340qgnog65q6e5i5h5g.mp4',
-  ];
+  var V='assets/compressed/';
+  var SHOW_VIDS={
+    'Akira':V+'COVER5-AKIRA.mp4',
+    'Die Hard':V+'COVER12-DIEHARD.mp4',
+    'Mr Money':V+'COVER13-MRMONEY.mp4',
+    'No Second Chances':V+'COVER14-NOSECONDCHANCES.mp4',
+    'Ghost Frame':V+'COVER15-GHOSTFRAME.mp4',
+    'Type Cast':V+'COVER16-TYPECAST.mp4'
+  };
+  var EXTRA=[V+'COVER1.mp4',V+'COVER2.mp4',V+'COVER3.mp4',V+'COVER4.mp4',V+'COVER17.mp4',V+'COVER18.mp4'];
+  var ei=0;
+  function extraVid(){var v=EXTRA[ei%EXTRA.length];ei++;return v}
 
-  let vidIdx = 0;
-  function nextVideo() {
-    const v = VIDEOS[vidIdx % VIDEOS.length];
-    vidIdx++;
+  function makeVideo(src){
+    var v=document.createElement('video');
+    v.src=src;v.muted=true;v.loop=true;v.playsInline=true;v.autoplay=true;
+    v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');v.setAttribute('muted','');
+    v.preload='auto';
+    v.addEventListener('canplay',function(){v.play().catch(function(){})},{once:true});
     return v;
   }
 
-  function makeVideo(src) {
-    const v = document.createElement('video');
-    v.src = src;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    v.autoplay = true;
-    v.setAttribute('playsinline', '');
-    v.setAttribute('webkit-playsinline', '');
-    v.setAttribute('muted', '');
-    v.preload = 'metadata';
-    v.addEventListener('loadeddata', () => { v.play().catch(() => {}); });
-    return v;
-  }
+  function forcePlay(){document.querySelectorAll('video').forEach(function(v){v.play().catch(function(){})});document.removeEventListener('touchstart',forcePlay);document.removeEventListener('click',forcePlay)}
+  document.addEventListener('touchstart',forcePlay,{once:true,passive:true});
+  document.addEventListener('click',forcePlay,{once:true});
 
-  function forcePlayAll() {
-    document.querySelectorAll('video').forEach(v => { v.play().catch(() => {}); });
-    document.removeEventListener('touchstart', forcePlayAll);
-    document.removeEventListener('click', forcePlayAll);
-  }
-  document.addEventListener('touchstart', forcePlayAll, { once: true, passive: true });
-  document.addEventListener('click', forcePlayAll, { once: true });
-
-  const showsData = [
-    { name: 'Akira',         ep: '4 Episodes',   desc: 'Neo-Tokyo burns. The power awakens.' },
-    { name: 'Die Hard',      ep: '9 Episodes',   desc: 'One building. One cop. No backup.' },
-    { name: 'Mr Money',      ep: '44 Episodes',  desc: 'The price of everything, the value of nothing.' },
-    { name: 'Little Robert', ep: '203 Episodes', desc: 'A boy and the weight of the world.' },
-    { name: 'Ghost Frame',   ep: '68 Episodes',  desc: 'Between frames, something watches back.' },
-    { name: 'Typecast',      ep: '1 Episode',    desc: 'You are the role you cannot escape.' },
+  var shows=[
+    {name:'Akira',ep:'4 Episodes',desc:'Neo-Tokyo burns. The power awakens.',vid:SHOW_VIDS['Akira']},
+    {name:'Die Hard',ep:'9 Episodes',desc:'One building. One cop. No backup.',vid:SHOW_VIDS['Die Hard']},
+    {name:'Mr Money',ep:'44 Episodes',desc:'The price of everything, the value of nothing.',vid:SHOW_VIDS['Mr Money']},
+    {name:'No Second Chances',ep:'12 Episodes',desc:'Every choice is final.',vid:SHOW_VIDS['No Second Chances']},
+    {name:'Ghost Frame',ep:'68 Episodes',desc:'Between frames, something watches back.',vid:SHOW_VIDS['Ghost Frame']},
+    {name:'Type Cast',ep:'1 Episode',desc:'You are the role you cannot escape.',vid:SHOW_VIDS['Type Cast']}
   ];
 
-  const genres = ['Anime', 'Horror', 'Action', 'Comedy', 'Music', 'Wildlife', 'Documentary', 'Experimental', 'Sci-Fi', 'Romance'];
+  var genres=['Anime','Action','Vintage','Experimental','Romance','Sci-Fi'];
 
-  const heroSection = document.getElementById('watchHero');
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get('q');
-  const featured = showsData.find(s => s.name === q) || showsData[Math.floor(Math.random() * showsData.length)];
+  var heroSection=document.getElementById('watchHero');
+  var params=new URLSearchParams(window.location.search);
+  var q=params.get('q');
+  var featured=shows.find(function(s){return s.name===q})||shows[Math.floor(Math.random()*shows.length)];
 
-  const heroVid = makeVideo(nextVideo());
-  heroSection.appendChild(heroVid);
-
-  const grad = document.createElement('div');
-  grad.className = 'watch-hero-gradient';
-  heroSection.appendChild(grad);
-
-  const content = document.createElement('div');
-  content.className = 'watch-hero-content';
-  content.innerHTML = `
-    <p class="watch-hero-tag">Featured</p>
-    <h1 class="watch-hero-title">${featured.name}</h1>
-    <p class="watch-hero-sub">${featured.desc}</p>
-    <div class="watch-hero-actions">
-      <button class="play-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        Play
-      </button>
-      <button class="info-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="12" y1="16" x2="12" y2="12"></line>
-          <line x1="12" y1="8" x2="12.01" y2="8"></line>
-        </svg>
-      </button>
-    </div>
-  `;
+  heroSection.appendChild(makeVideo(featured.vid));
+  var grad=document.createElement('div');grad.className='watch-hero-gradient';heroSection.appendChild(grad);
+  var content=document.createElement('div');content.className='watch-hero-content';
+  content.innerHTML='<p class="watch-hero-tag">Featured</p><h1 class="watch-hero-title">'+featured.name+'</h1><p class="watch-hero-sub">'+featured.desc+'</p><div class="watch-hero-actions"><button class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>Play</button><button class="info-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button></div>';
   heroSection.appendChild(content);
 
-  const rows = document.getElementById('watchRows');
-
-  function makeRow(title, items) {
-    const row = document.createElement('div');
-    row.className = 'watch-row';
-
-    const h = document.createElement('h3');
-    h.className = 'row-title';
-    h.textContent = title;
-    row.appendChild(h);
-
-    const track = document.createElement('div');
-    track.className = 'row-track';
-
-    items.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'row-card';
-
-      const thumb = document.createElement('div');
-      thumb.className = 'row-card-thumb';
-      thumb.appendChild(makeVideo(nextVideo()));
-
-      const overlay = document.createElement('div');
-      overlay.className = 'thumb-overlay';
-      overlay.innerHTML = `<span class="row-card-ep">${item.ep || ''}</span>`;
-      thumb.appendChild(overlay);
-
-      card.appendChild(thumb);
-      card.innerHTML += `<div class="row-card-title">${item.name}</div><div class="row-card-meta">${item.ep || ''}</div>`;
+  var rows=document.getElementById('watchRows');
+  function makeRow(title,items){
+    var row=document.createElement('div');row.className='watch-row';
+    var h=document.createElement('h3');h.className='row-title';h.textContent=title;row.appendChild(h);
+    var track=document.createElement('div');track.className='row-track';
+    items.forEach(function(item){
+      var card=document.createElement('div');card.className='row-card';
+      var thumb=document.createElement('div');thumb.className='row-card-thumb';
+      thumb.appendChild(makeVideo(item.vid||extraVid()));
+      var ov=document.createElement('div');ov.className='thumb-overlay';ov.innerHTML='<span class="row-card-ep">'+(item.ep||'')+'</span>';
+      thumb.appendChild(ov);card.appendChild(thumb);
+      card.innerHTML+='<div class="row-card-title">'+item.name+'</div><div class="row-card-meta">'+(item.ep||'')+'</div>';
       track.appendChild(card);
     });
-
-    row.appendChild(track);
-    rows.appendChild(row);
+    row.appendChild(track);rows.appendChild(row);
   }
 
-  makeRow('Continue Watching', showsData.slice(0, 4));
-  makeRow('Trending Now', [...showsData].reverse());
-  makeRow('New Releases', [...showsData].sort(() => Math.random() - 0.5));
-
-  genres.slice(0, 5).forEach(genre => {
-    const genreShows = [...showsData].sort(() => Math.random() - 0.5).slice(0, 4);
-    makeRow(genre, genreShows);
+  makeRow('Continue Watching',shows.slice(0,4));
+  makeRow('Trending Now',shows.slice().reverse());
+  makeRow('New Releases',shows.slice().sort(function(){return Math.random()-0.5}));
+  genres.slice(0,4).forEach(function(g){
+    makeRow(g,shows.slice().sort(function(){return Math.random()-0.5}).slice(0,4));
   });
 
-  const rowEls = document.querySelectorAll('.watch-row');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  rowEls.forEach(el => obs.observe(el));
-
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('revealed');obs.unobserve(e.target)}})},{threshold:0.1});
+  document.querySelectorAll('.watch-row').forEach(function(el){obs.observe(el)});
 })();
 </script>
 </body>

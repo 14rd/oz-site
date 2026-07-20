@@ -71,37 +71,38 @@ body {
   font-weight: 700;
   letter-spacing: -0.04em;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .search-bar {
   flex: 1;
   max-width: 280px;
   height: 38px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.2s;
-  background: rgba(0,0,0,0.3);
+  transition: border-color 0.3s, background 0.3s;
+  background: rgba(0,0,0,0.25);
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
   backdrop-filter: blur(24px) saturate(1.3);
 }
 
-.search-bar:hover { border-color: rgba(255,255,255,0.4); }
+.search-bar:hover { border-color: rgba(255,255,255,0.35); }
 
 .search-bar svg {
   width: 15px;
   height: 15px;
-  stroke: rgba(255,255,255,0.45);
+  stroke: rgba(255,255,255,0.4);
 }
 
 .profile-btn {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,13 +110,136 @@ body {
   font-weight: 500;
   flex-shrink: 0;
   cursor: pointer;
-  transition: border-color 0.2s;
-  background: rgba(0,0,0,0.3);
+  transition: border-color 0.3s;
+  background: rgba(0,0,0,0.25);
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
   backdrop-filter: blur(24px) saturate(1.3);
+  text-decoration: none;
+  color: #fff;
 }
 
-.profile-btn:hover { border-color: rgba(255,255,255,0.4); }
+.profile-btn:hover { border-color: rgba(255,255,255,0.35); }
+
+/* ===== SEARCH OVERLAY ===== */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0,0,0,0.92);
+  -webkit-backdrop-filter: blur(40px);
+  backdrop-filter: blur(40px);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-overlay-header {
+  padding: calc(14px + var(--sat)) 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-input {
+  flex: 1;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 0 20px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus { border-color: rgba(255,255,255,0.4); }
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
+
+.search-close {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.search-close:hover { color: #fff; }
+
+.search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+}
+
+.search-results-empty {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  margin-top: 60px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-result-item:hover { opacity: 0.7; }
+
+.search-result-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  background: #111;
+}
+
+.search-result-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.search-result-name {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.search-result-type {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
 /* ===== SECTION 1: HERO ===== */
 .hero {
@@ -154,21 +278,28 @@ body {
   overflow: hidden;
   will-change: transform;
   cursor: pointer;
-  background-size: cover;
-  background-position: center;
+  background: #111;
 }
 
-/* Glass: semi-transparent with blur — NOT opaque */
+.wheel-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
 .glass-panel {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: 50%;
-  background: rgba(0,0,0,0.65);
-  -webkit-backdrop-filter: blur(48px) saturate(1.2);
-  backdrop-filter: blur(48px) saturate(1.2);
+  background: rgba(0,0,0,0.55);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2);
+  backdrop-filter: blur(40px) saturate(1.2);
   z-index: 10;
+  will-change: height;
+  transition: height 0.05s linear;
 }
 
 .glass-content {
@@ -184,6 +315,8 @@ body {
   text-align: center;
   padding: 0 28px 40px;
   height: 50%;
+  will-change: height;
+  transition: height 0.05s linear;
 }
 
 .glass-welcome {
@@ -193,6 +326,9 @@ body {
   color: rgba(255,255,255,0.6);
   margin-bottom: 14px;
   letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .glass-headline {
@@ -201,6 +337,9 @@ body {
   line-height: 1.08;
   letter-spacing: -0.025em;
   margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 .glass-sub {
@@ -211,6 +350,9 @@ body {
   line-height: 1.5;
   max-width: 300px;
   margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
 }
 
 .cta-btn {
@@ -229,19 +371,34 @@ body {
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
 }
 
-.cta-btn:hover { opacity: 0.9; }
-.cta-btn:active { opacity: 0.8; }
+.cta-btn:hover { opacity: 0.9; transform: scale(1.02); }
+.cta-btn:active { opacity: 0.8; transform: scale(0.98); }
 
 .cta-btn svg { width: 18px; height: 18px; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ===== SECTION 2: BROWSE ===== */
 .browse-section {
   position: relative;
   background: #000;
   padding: 36px 0 44px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.browse-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section-label {
@@ -282,7 +439,10 @@ body {
   flex-direction: column;
   align-items: center;
   will-change: transform, opacity;
-  transition: transform 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
+  transition: transform 0.12s ease-out, opacity 0.12s ease-out, filter 0.12s ease-out;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
 }
 
 .carousel-circle {
@@ -291,7 +451,13 @@ body {
   border-radius: 50%;
   overflow: hidden;
   position: relative;
-  background-size: 300% 300%;
+  background: #111;
+}
+
+.carousel-circle video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .carousel-circle .circle-overlay {
@@ -301,10 +467,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.18);
+  background: rgba(0,0,0,0.25);
   text-align: center;
   padding: 16px;
+  transition: background 0.3s;
 }
+
+.carousel-item:hover .circle-overlay { background: rgba(0,0,0,0.15); }
 
 .carousel-title {
   font-size: 21px;
@@ -324,38 +493,22 @@ body {
 
 .browse-section + .browse-section { padding-top: 4px; }
 
-/* Animated gradients */
-@keyframes gFlow1 {
-  0%   { background-position: 0% 0%; }
-  25%  { background-position: 100% 50%; }
-  50%  { background-position: 50% 100%; }
-  75%  { background-position: 0% 50%; }
-  100% { background-position: 0% 0%; }
-}
-@keyframes gFlow2 {
-  0%   { background-position: 100% 100%; }
-  33%  { background-position: 0% 50%; }
-  66%  { background-position: 50% 0%; }
-  100% { background-position: 100% 100%; }
-}
-@keyframes gFlow3 {
-  0%   { background-position: 50% 0%; }
-  50%  { background-position: 50% 100%; }
-  100% { background-position: 50% 0%; }
-}
-
-.ag1 { animation: gFlow1 10s ease infinite; }
-.ag2 { animation: gFlow2 12s ease infinite; }
-.ag3 { animation: gFlow3 14s ease infinite; }
-
-/* ===== ROULETTE (3D elliptical from v1) ===== */
+/* ===== ROULETTE ===== */
 .roulette-section {
   position: relative;
   background: #000;
-  padding: 60px 0 80px;
+  padding: 80px 0 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roulette-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .roulette-label {
@@ -364,14 +517,14 @@ body {
   font-weight: 400;
   color: rgba(255,255,255,0.4);
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
   letter-spacing: 0.02em;
 }
 
 .roulette-container {
   position: relative;
   width: 340px;
-  height: 280px;
+  height: 300px;
 }
 
 .roulette-galaxy {
@@ -386,7 +539,18 @@ body {
   border-radius: 50%;
   overflow: hidden;
   will-change: transform;
-  background-size: 300% 300%;
+  background: #111;
+  transition: box-shadow 0.4s ease;
+}
+
+.roulette-orb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.roulette-orb.highlighted {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.15);
 }
 
 .roulette-center {
@@ -416,7 +580,7 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.3s, transform 0.3s;
 }
 
 .spin-btn:hover {
@@ -428,15 +592,19 @@ body {
 
 .spin-result {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transform: translateY(10px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.spin-result.visible { opacity: 1; }
+.spin-result.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .spin-result-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -447,8 +615,48 @@ body {
   color: rgba(255,255,255,0.5);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 4px;
+  margin-top: 5px;
 }
+
+.spin-result-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 12px 28px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.spin-result-cta:hover { opacity: 0.9; transform: scale(1.02); }
+.spin-result-cta:active { opacity: 0.8; }
+
+.spin-result-cta svg { width: 14px; height: 14px; }
+
+.spin-again {
+  display: block;
+  margin-top: 12px;
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  background: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+
+.spin-again:hover { color: rgba(255,255,255,0.7); }
 
 /* ===== FOOTER CTA ===== */
 .footer-cta {
@@ -459,6 +667,14 @@ body {
   text-align: center;
   padding: 80px 32px 60px;
   min-height: 55dvh;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-cta.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .footer-headline {
@@ -468,6 +684,12 @@ body {
   letter-spacing: -0.02em;
   margin-bottom: 36px;
   max-width: 320px;
+}
+
+.footer-cta .cta-btn {
+  opacity: 1;
+  transform: none;
+  animation: none;
 }
 
 .footer {
@@ -509,15 +731,26 @@ body {
 
 <!-- HEADER -->
 <header class="header">
-  <div class="header-logo">OZ</div>
-  <div class="search-bar">
+  <div class="header-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">OZ</div>
+  <div class="search-bar" id="searchTrigger">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"></circle>
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
   </div>
-  <div class="profile-btn">E</div>
+  <a href="profile.html" class="profile-btn">E</a>
 </header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-overlay-header">
+    <input type="text" class="search-input" id="searchInput" placeholder="Search shows, genres..." autocomplete="off">
+    <button class="search-close" id="searchClose">Cancel</button>
+  </div>
+  <div class="search-results" id="searchResults">
+    <p class="search-results-empty" id="searchEmpty">Search OZ</p>
+  </div>
+</div>
 
 <!-- SECTION 1: HERO -->
 <section class="hero" id="hero">
@@ -530,7 +763,7 @@ body {
       <p class="glass-welcome">Welcome to OZ.</p>
       <h1 class="glass-headline">Stories Live Here.</h1>
       <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
-      <a href="#browse" class="cta-btn">
+      <a href="watch.html" class="cta-btn">
         Start Watching
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -565,13 +798,20 @@ body {
   <div class="spin-result" id="spinResult">
     <div class="spin-result-title" id="spinResultTitle"></div>
     <div class="spin-result-meta" id="spinResultMeta"></div>
+    <a href="watch.html" class="spin-result-cta" id="spinResultCta">
+      Watch Now
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </a>
+    <button class="spin-again" id="spinAgain">Spin Again</button>
   </div>
 </section>
 
 <!-- FOOTER CTA -->
 <section class="footer-cta">
   <h2 class="footer-headline">The platform disappears.<br>The story remains.</h2>
-  <a href="#hero" class="cta-btn">
+  <a href="watch.html" class="cta-btn">
     Start Watching
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -584,7 +824,7 @@ body {
 <footer class="footer">
   <div class="footer-logo">OZ</div>
   <div class="footer-links">
-    <a href="#">Watch</a>
+    <a href="watch.html">Watch</a>
     <a href="#">Privacy Policy</a>
   </div>
 </footer>
@@ -596,72 +836,97 @@ body {
     return;
   }
 
-  // ===== HERO WHEEL — equal sizes, equidistant =====
-  const wheel = document.getElementById('wheel');
-  const ORB_COUNT = 18;
-  const ORB_SIZE = 54;
-  const W = 340, CX = W / 2, CY = W / 2, RADIUS = 145;
-
-  const orbGrads = [
-    'linear-gradient(135deg, #e85d3a, #c44, #2a1a1a)',
-    'linear-gradient(145deg, #f0c090, #d4956a, #3a2010)',
-    'radial-gradient(circle at 45% 45%, #eee 8%, #aaa 30%, #444 65%, #181818)',
-    'linear-gradient(135deg, #e8c860, #c9a84c, #3a2800)',
-    'linear-gradient(150deg, #90ccee, #5588aa, #1a2a3a)',
-    'linear-gradient(135deg, #ff6644, #cc4433, #2a0808)',
-    'linear-gradient(135deg, #88cc88, #5a7a5a, #1a2a1a)',
-    'linear-gradient(135deg, #bb88ff, #7a6a9a, #1a1a2a)',
-    'linear-gradient(135deg, #88bbee, #446688, #0a1a2a)',
-    'linear-gradient(135deg, #55cc88, #3a7a5a, #0a2a1a)',
-    'linear-gradient(160deg, #ff8866, #cc5533, #331108)',
-    'linear-gradient(140deg, #dd99cc, #995577, #220a18)',
-    'linear-gradient(135deg, #aaddff, #5588bb, #0a1828)',
-    'linear-gradient(150deg, #ffcc44, #aa8822, #2a1a00)',
-    'linear-gradient(135deg, #44bbaa, #227766, #0a2a22)',
-    'linear-gradient(145deg, #ff5577, #aa2244, #220510)',
-    'linear-gradient(135deg, #99aaff, #5566aa, #0a0a2a)',
-    'linear-gradient(155deg, #ffaa66, #aa6622, #2a1500)',
+  const VIDEOS = [
+    'assets/newvideos/v09044g40000cpjiudvog65uits9edag.mp4',
+    'assets/newvideos/v12044gd0000cv3phmfog65o2ru4trag.mp4',
+    'assets/newvideos/v14044g50000ctlcd37og65u8r34q9t0.mp4',
+    'assets/newvideos/v1c044g50000d7l4pmvog65mvpm1tb4g.mp4',
+    'assets/newvideos/v24044gl0000d340qgnog65q6e5i5h5g.mp4',
   ];
 
-  const orbEls = [];
+  let vidIdx = 0;
+  function nextVideo() {
+    const v = VIDEOS[vidIdx % VIDEOS.length];
+    vidIdx++;
+    return v;
+  }
 
+  function makeVideo(src) {
+    const v = document.createElement('video');
+    v.src = src;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.autoplay = true;
+    v.setAttribute('playsinline', '');
+    v.setAttribute('webkit-playsinline', '');
+    v.preload = 'auto';
+    return v;
+  }
+
+  // ===== HERO WHEEL =====
+  const wheel = document.getElementById('wheel');
+  const ORB_COUNT = 18;
+  const ORB_SIZE = 50;
+  const W = 340, CX = W / 2, CY = W / 2, RADIUS = 148;
+
+  const orbEls = [];
   for (let i = 0; i < ORB_COUNT; i++) {
     const el = document.createElement('div');
     el.className = 'wheel-item';
     el.style.width = ORB_SIZE + 'px';
     el.style.height = ORB_SIZE + 'px';
-    el.style.background = orbGrads[i];
+    el.appendChild(makeVideo(nextVideo()));
     wheel.appendChild(el);
     orbEls.push(el);
   }
 
-  let wAngle = 0, wAuto = 0.001, wDrag = false, wLastX = 0, wVel = 0;
+  let wAngle = 0, wAuto = 0.001, wDrag = false, wLastX = 0, wVel = 0, wLastTime = 0;
 
   function layoutWheel() {
     for (let i = 0; i < ORB_COUNT; i++) {
       const a = wAngle + (i / ORB_COUNT) * Math.PI * 2;
-      orbEls[i].style.left = (CX + Math.cos(a) * RADIUS - ORB_SIZE / 2) + 'px';
-      orbEls[i].style.top = (CY + Math.sin(a) * RADIUS - ORB_SIZE / 2) + 'px';
+      const x = CX + Math.cos(a) * RADIUS - ORB_SIZE / 2;
+      const y = CY + Math.sin(a) * RADIUS - ORB_SIZE / 2;
+      orbEls[i].style.left = x + 'px';
+      orbEls[i].style.top = y + 'px';
     }
   }
 
   function animWheel() {
-    if (!wDrag) { wAngle += wAuto + wVel; wVel *= 0.97; }
+    if (!wDrag) {
+      wAngle += wAuto + wVel;
+      wVel *= 0.96;
+      if (Math.abs(wVel) < 0.00005) wVel = 0;
+    }
     layoutWheel();
     requestAnimationFrame(animWheel);
   }
 
-  wheel.addEventListener('pointerdown', e => { wDrag = true; wLastX = e.clientX; wVel = 0; wheel.setPointerCapture(e.pointerId); });
-  wheel.addEventListener('pointermove', e => { if (!wDrag) return; const dx = e.clientX - wLastX; wAngle += dx * 0.004; wVel = dx * 0.002; wLastX = e.clientX; });
+  wheel.addEventListener('pointerdown', e => {
+    wDrag = true; wLastX = e.clientX; wVel = 0; wLastTime = Date.now();
+    wheel.setPointerCapture(e.pointerId);
+  });
+  wheel.addEventListener('pointermove', e => {
+    if (!wDrag) return;
+    const dx = e.clientX - wLastX;
+    const now = Date.now();
+    const dt = Math.max(now - wLastTime, 1);
+    wAngle += dx * 0.004;
+    wVel = (dx * 0.003) / (dt / 16);
+    wLastX = e.clientX;
+    wLastTime = now;
+  });
   wheel.addEventListener('pointerup', () => { wDrag = false; });
   wheel.addEventListener('pointercancel', () => { wDrag = false; });
 
   animWheel();
 
-  // ===== SCROLL-DRIVEN GLASS (transparent blur, not opaque) =====
+  // ===== SCROLL-DRIVEN GLASS =====
   const hero = document.getElementById('hero');
   const glassPanel = document.getElementById('glassPanel');
   const glassContent = document.getElementById('glassContent');
+  let lastGlassH = 50;
 
   function updateGlass() {
     const rect = hero.getBoundingClientRect();
@@ -669,68 +934,83 @@ body {
     const travel = hero.offsetHeight - window.innerHeight;
     const progress = Math.max(0, Math.min(1, scrolled / travel));
     const h = 50 + progress * 50;
-    glassPanel.style.height = h + '%';
-    glassContent.style.height = h + '%';
+    if (Math.abs(h - lastGlassH) > 0.1) {
+      lastGlassH = h;
+      glassPanel.style.height = h + '%';
+      glassContent.style.height = h + '%';
+    }
   }
 
   window.addEventListener('scroll', updateGlass, { passive: true });
   updateGlass();
 
-  // ===== INFINITE CAROUSELS =====
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.browse-section, .roulette-section, .footer-cta');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // ===== DATA =====
   const genres = [
-    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3565, #2a5588, #0a1828, #1a3565)', anim: 'ag1' },
-    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #601818, #882828, #200808, #601818)', anim: 'ag2' },
-    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #605020, #887030, #2a1a08, #605020)', anim: 'ag3' },
-    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #682020, #903838, #300a0a, #682020)', anim: 'ag1' },
-    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #382060, #582a88, #180a30, #382060)', anim: 'ag2' },
-    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a4828, #2a6840, #0a1a10, #1a4828)', anim: 'ag3' },
-    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #383838, #505050, #141414, #383838)', anim: 'ag1' },
-    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #483820, #685030, #1a100a, #483820)', anim: 'ag2' },
-    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a3848, #1a5868, #051820, #0a3848)', anim: 'ag3' },
-    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #482030, #682850, #1a0a15, #482030)', anim: 'ag1' },
+    { name: 'Anime',        count: '145 Series',   type: 'genre' },
+    { name: 'Horror',       count: '89 Series',    type: 'genre' },
+    { name: 'Action',       count: '120 Series',   type: 'genre' },
+    { name: 'Comedy',       count: '95 Series',    type: 'genre' },
+    { name: 'Music',        count: '67 Series',    type: 'genre' },
+    { name: 'Wildlife',     count: '42 Series',    type: 'genre' },
+    { name: 'Documentary',  count: '78 Series',    type: 'genre' },
+    { name: 'Experimental', count: '31 Series',    type: 'genre' },
+    { name: 'Sci-Fi',       count: '54 Series',    type: 'genre' },
+    { name: 'Romance',      count: '63 Series',    type: 'genre' },
   ];
 
   const showsData = [
-    { name: 'Akira',          count: '4 Episodes',    grad: 'linear-gradient(150deg, #cc2200, #881500, #440a00, #cc2200)', anim: 'ag2' },
-    { name: 'Die Hard',       count: '9 Episodes',    grad: 'linear-gradient(150deg, #384860, #506878, #1a2030, #384860)', anim: 'ag3' },
-    { name: 'Mr Money',       count: '44 Episodes',   grad: 'linear-gradient(150deg, #2a6835, #186028, #0a3010, #2a6835)', anim: 'ag1' },
-    { name: 'Little Robert',  count: '203 Episodes',  grad: 'linear-gradient(150deg, #5a3888, #3a1868, #1a0838, #5a3888)', anim: 'ag2' },
-    { name: 'Ghost Frame',    count: '68 Episodes',   grad: 'linear-gradient(150deg, #184858, #286878, #0a2028, #184858)', anim: 'ag3' },
-    { name: 'Typecast',       count: '1 Episode',     grad: 'linear-gradient(150deg, #605828, #484018, #282008, #605828)', anim: 'ag1' },
+    { name: 'Akira',          count: '4 Episodes',    type: 'show' },
+    { name: 'Die Hard',       count: '9 Episodes',    type: 'show' },
+    { name: 'Mr Money',       count: '44 Episodes',   type: 'show' },
+    { name: 'Little Robert',  count: '203 Episodes',  type: 'show' },
+    { name: 'Ghost Frame',    count: '68 Episodes',   type: 'show' },
+    { name: 'Typecast',       count: '1 Episode',     type: 'show' },
   ];
 
-  function makeItemHTML(item) {
-    return `<div class="carousel-circle ${item.anim}" style="background: ${item.grad}">
-      <div class="circle-overlay">
-        <span class="carousel-title">${item.name}</span>
-        <span class="carousel-meta">${item.count}</span>
-      </div>
-    </div>`;
-  }
+  const allItems = [...genres, ...showsData];
 
+  // ===== INFINITE CAROUSELS WITH VIDEO =====
   function buildInfiniteCarousel(containerId, data) {
     const track = document.getElementById(containerId);
     for (let s = 0; s < 5; s++) {
       data.forEach(item => {
-        const el = document.createElement('div');
+        const el = document.createElement('a');
         el.className = 'carousel-item';
-        el.innerHTML = makeItemHTML(item);
+        el.href = 'watch.html?q=' + encodeURIComponent(item.name);
+
+        const circle = document.createElement('div');
+        circle.className = 'carousel-circle';
+        circle.appendChild(makeVideo(nextVideo()));
+
+        const overlay = document.createElement('div');
+        overlay.className = 'circle-overlay';
+        overlay.innerHTML = `<span class="carousel-title">${item.name}</span><span class="carousel-meta">${item.count}</span>`;
+        circle.appendChild(overlay);
+        el.appendChild(circle);
         track.appendChild(el);
       });
     }
 
     const itemW = 210 + 14;
     const oneSetW = data.length * itemW;
-
     track.scrollLeft = oneSetW * 2;
 
     function loopCheck() {
       const sl = track.scrollLeft;
-      if (sl < oneSetW) {
-        track.scrollLeft += oneSetW;
-      } else if (sl > oneSetW * 3) {
-        track.scrollLeft -= oneSetW;
-      }
+      if (sl < oneSetW) track.scrollLeft += oneSetW;
+      else if (sl > oneSetW * 3) track.scrollLeft -= oneSetW;
     }
 
     track.addEventListener('scroll', () => {
@@ -762,46 +1042,64 @@ body {
   buildInfiniteCarousel('genreCarousel', genres);
   buildInfiniteCarousel('showCarousel', showsData);
 
-  // ===== 3D ROULETTE (from v1 style) =====
+  // ===== 3D ROULETTE WITH VIDEO =====
   const rGalaxy = document.getElementById('rouletteGalaxy');
   const allShows = [
     ...showsData,
-    { name: 'Anime Mix', count: 'Curated', grad: genres[0].grad, anim: 'ag1' },
-    { name: 'Horror Mix', count: 'Curated', grad: genres[1].grad, anim: 'ag2' },
-    { name: 'Action Mix', count: 'Curated', grad: genres[2].grad, anim: 'ag3' },
-    { name: 'Sci-Fi Mix', count: 'Curated', grad: genres[8].grad, anim: 'ag1' },
+    { name: 'Anime Mix', count: 'Curated', type: 'genre' },
+    { name: 'Horror Mix', count: 'Curated', type: 'genre' },
+    { name: 'Action Mix', count: 'Curated', type: 'genre' },
+    { name: 'Sci-Fi Mix', count: 'Curated', type: 'genre' },
   ];
 
   const rCount = allShows.length;
-  const rCX = 170, rCY = 140, rRX = 140, rRY = 80;
-  const rOrbSize = 60;
+  const rCX = 170, rCY = 150, rRX = 145, rRY = 85;
+  const rOrbSize = 58;
   const rOrbs = [];
 
-  allShows.forEach((show, i) => {
+  allShows.forEach((show) => {
     const el = document.createElement('div');
-    el.className = 'roulette-orb ' + show.anim;
+    el.className = 'roulette-orb';
     el.style.width = rOrbSize + 'px';
     el.style.height = rOrbSize + 'px';
-    el.style.background = show.grad;
+    el.appendChild(makeVideo(nextVideo()));
     rGalaxy.appendChild(el);
     rOrbs.push(el);
   });
 
   let rAngle = 0, rAuto = 0.002, rSpinVel = 0, rSpinning = false;
 
+  function getClosestOrb() {
+    let closest = 0, minDist = Infinity;
+    for (let i = 0; i < rCount; i++) {
+      const a = rAngle + (i / rCount) * Math.PI * 2;
+      const norm = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      const dist = Math.abs(norm - Math.PI * 1.5);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    }
+    return closest;
+  }
+
   function layoutRoulette() {
+    const closestIdx = rSpinning ? -1 : getClosestOrb();
     for (let i = 0; i < rCount; i++) {
       const a = rAngle + (i / rCount) * Math.PI * 2;
       const x = rCX + Math.cos(a) * rRX - rOrbSize / 2;
       const y = rCY + Math.sin(a) * rRY - rOrbSize / 2;
       const depth = (Math.sin(a) + 1) / 2;
-      const scale = 0.65 + depth * 0.35;
+      const scale = 0.6 + depth * 0.4;
       const z = Math.floor(depth * 10);
       rOrbs[i].style.left = x + 'px';
       rOrbs[i].style.top = y + 'px';
       rOrbs[i].style.transform = `scale(${scale})`;
       rOrbs[i].style.zIndex = z;
-      rOrbs[i].style.opacity = (0.4 + depth * 0.6).toFixed(2);
+      rOrbs[i].style.opacity = (0.35 + depth * 0.65).toFixed(2);
+
+      if (i === closestIdx && !rSpinning) {
+        rOrbs[i].classList.add('highlighted');
+      } else {
+        rOrbs[i].classList.remove('highlighted');
+      }
     }
   }
 
@@ -822,16 +1120,11 @@ body {
   }
 
   function showSpinResult() {
-    let closest = 0, minDist = Infinity;
-    for (let i = 0; i < rCount; i++) {
-      const a = rAngle + (i / rCount) * Math.PI * 2;
-      const norm = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-      const dist = Math.abs(norm - Math.PI * 1.5);
-      if (dist < minDist) { minDist = dist; closest = i; }
-    }
+    const closest = getClosestOrb();
     const show = allShows[closest];
     document.getElementById('spinResultTitle').textContent = show.name;
     document.getElementById('spinResultMeta').textContent = show.count;
+    document.getElementById('spinResultCta').href = 'watch.html?q=' + encodeURIComponent(show.name);
     document.getElementById('spinResult').classList.add('visible');
   }
 
@@ -842,7 +1135,72 @@ body {
     document.getElementById('spinResult').classList.remove('visible');
   });
 
+  document.getElementById('spinAgain').addEventListener('click', () => {
+    if (rSpinning) return;
+    rSpinning = true;
+    rSpinVel = 0.15 + Math.random() * 0.1;
+    document.getElementById('spinResult').classList.remove('visible');
+  });
+
   animRoulette();
+
+  // ===== SEARCH =====
+  const searchOverlay = document.getElementById('searchOverlay');
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+  const searchEmpty = document.getElementById('searchEmpty');
+
+  document.getElementById('searchTrigger').addEventListener('click', () => {
+    searchOverlay.classList.add('active');
+    setTimeout(() => searchInput.focus(), 100);
+  });
+
+  document.getElementById('searchClose').addEventListener('click', () => {
+    searchOverlay.classList.remove('active');
+    searchInput.value = '';
+    searchResults.innerHTML = '';
+    searchResults.appendChild(searchEmpty);
+    searchEmpty.textContent = 'Search OZ';
+  });
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    searchResults.innerHTML = '';
+
+    if (!q) {
+      searchResults.appendChild(searchEmpty);
+      searchEmpty.textContent = 'Search OZ';
+      return;
+    }
+
+    const matches = allItems.filter(item =>
+      item.name.toLowerCase().includes(q) || item.type.toLowerCase().includes(q)
+    );
+
+    if (matches.length === 0) {
+      searchResults.appendChild(searchEmpty);
+      searchEmpty.textContent = 'No results found';
+      return;
+    }
+
+    matches.forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'search-result-item';
+      a.href = 'watch.html?q=' + encodeURIComponent(item.name);
+
+      const thumb = document.createElement('div');
+      thumb.className = 'search-result-thumb';
+      thumb.appendChild(makeVideo(nextVideo()));
+
+      const info = document.createElement('div');
+      info.className = 'search-result-info';
+      info.innerHTML = `<span class="search-result-name">${item.name}</span><span class="search-result-type">${item.type} · ${item.count}</span>`;
+
+      a.appendChild(thumb);
+      a.appendChild(info);
+      searchResults.appendChild(a);
+    });
+  });
 
 })();
 </script>

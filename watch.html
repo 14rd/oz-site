@@ -53,6 +53,8 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .row-card-ep{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase}
 .row-card-title{font-size:13px;font-weight:500;letter-spacing:-0.005em}
 .row-card-meta{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px}
+.progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:6px;overflow:hidden}
+.progress-bar-fill{height:100%;background:#fff;border-radius:2px}
 
 .footer{border-top:1px solid rgba(255,255,255,0.06);padding:28px 24px calc(28px + var(--sab));display:flex;align-items:flex-start;justify-content:space-between}
 .footer-logo{font-size:18px;font-weight:700;letter-spacing:-0.04em}
@@ -131,23 +133,33 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   heroSection.appendChild(content);
 
   var rows=document.getElementById('watchRows');
-  function makeRow(title,items){
+  function makeRow(title,items,showProgress){
     var row=document.createElement('div');row.className='watch-row';
     var h=document.createElement('h3');h.className='row-title';h.textContent=title;row.appendChild(h);
     var track=document.createElement('div');track.className='row-track';
-    items.forEach(function(item){
+    items.forEach(function(item,idx){
       var card=document.createElement('div');card.className='row-card';
       var thumb=document.createElement('div');thumb.className='row-card-thumb';
       thumb.appendChild(makeVideo(item.vid||extraVid()));
       var ov=document.createElement('div');ov.className='thumb-overlay';ov.innerHTML='<span class="row-card-ep">'+(item.ep||'')+'</span>';
       thumb.appendChild(ov);card.appendChild(thumb);
-      card.innerHTML+='<div class="row-card-title">'+item.name+'</div><div class="row-card-meta">'+(item.ep||'')+'</div>';
+      var titleDiv=document.createElement('div');titleDiv.className='row-card-title';titleDiv.textContent=item.name;
+      card.appendChild(titleDiv);
+      var metaDiv=document.createElement('div');metaDiv.className='row-card-meta';metaDiv.textContent=item.ep||'';
+      card.appendChild(metaDiv);
+      if(showProgress){
+        var pcts=[65,30,88,12];
+        var bar=document.createElement('div');bar.className='progress-bar';
+        var fill=document.createElement('div');fill.className='progress-bar-fill';
+        fill.style.width=(pcts[idx%pcts.length])+'%';
+        bar.appendChild(fill);card.appendChild(bar);
+      }
       track.appendChild(card);
     });
     row.appendChild(track);rows.appendChild(row);
   }
 
-  makeRow('Continue Watching',shows.slice(0,4));
+  makeRow('Continue Watching',shows.slice(0,4),true);
   makeRow('Trending Now',shows.slice().reverse());
   makeRow('New Releases',shows.slice().sort(function(){return Math.random()-0.5}));
   genres.slice(0,4).forEach(function(g){

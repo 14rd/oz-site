@@ -41,17 +41,22 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .search-result-type{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase}
 
 /* Hero */
-.hero{position:relative;height:200dvh}
-.hero-sticky{position:sticky;top:0;height:100dvh;overflow:hidden}
-.wheel-container{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;opacity:0}
+.hero{position:relative;height:85dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wheel-container{position:relative;opacity:0}
 .wheel{position:relative;width:370px;height:370px;touch-action:none}
 .wheel-item{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;cursor:pointer;background:#0a0a0a}
 .wheel-item video{width:100%;height:100%;object-fit:cover;pointer-events:none}
-.glass-panel{position:absolute;left:0;right:0;bottom:0;height:100%;background:#000;z-index:10;will-change:transform;transform:translateY(50%);opacity:0}
-.glass-content{position:absolute;left:0;right:0;bottom:0;z-index:11;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:0 28px 30dvh;height:100%;will-change:transform;transform:translateY(50%);opacity:0}
-.glass-welcome{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-bottom:28px;letter-spacing:0.02em}
-.glass-headline{font-size:34px;font-weight:500;line-height:1.08;letter-spacing:-0.025em;margin-bottom:12px}
-.glass-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;max-width:300px;margin-bottom:28px}
+
+/* Glass Section */
+.glass-section{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 28px;min-height:75dvh;overflow:hidden;opacity:0;transform:translateY(36px);transition:opacity 1.4s cubic-bezier(0.16,1,0.3,1),transform 1.4s cubic-bezier(0.16,1,0.3,1)}
+.glass-section.revealed{opacity:1;transform:translateY(0)}
+.glass-section::before{content:'';position:absolute;inset:-60px;background:radial-gradient(ellipse at 50% 30%,rgba(100,70,30,0.1),transparent 70%);pointer-events:none}
+.glass-section>*{position:relative;z-index:1}
+.glass-welcome{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-bottom:28px;letter-spacing:0.02em;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s}
+.glass-headline{font-size:34px;font-weight:500;line-height:1.08;letter-spacing:-0.025em;margin-bottom:12px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s}
+.glass-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;max-width:300px;margin-bottom:28px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s}
+.glass-section .cta-btn{opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s}
+.glass-section.revealed .glass-welcome,.glass-section.revealed .glass-headline,.glass-section.revealed .glass-sub,.glass-section.revealed .cta-btn{opacity:1;transform:translateY(0)}
 .cta-btn{display:inline-flex;align-items:center;gap:14px;padding:15px 36px;background:#fff;color:#000;border:none;border-radius:100px;font-family:inherit;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity 0.2s,transform 0.2s}
 .cta-btn:hover{opacity:0.9;transform:scale(1.02)}
 .cta-btn:active{opacity:0.8;transform:scale(0.98)}
@@ -79,7 +84,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .roulette-galaxy{position:relative;width:100%;height:100%;touch-action:none}
 .roulette-orb{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;background:#0a0a0a;transition:box-shadow 0.5s ease,opacity 0.6s ease,filter 0.6s ease}
 .roulette-orb video{width:100%;height:100%;object-fit:cover}
-.roulette-orb.highlighted{box-shadow:0 0 0 2px rgba(255,255,255,0.8),0 0 30px rgba(255,255,255,0.15)}
+.roulette-orb.highlighted{box-shadow:0 0 0 1px rgba(255,255,255,0.7),0 0 20px rgba(255,255,255,0.1)}
 
 .roulette-controls{margin-top:24px;display:flex;flex-direction:column;align-items:center;min-height:120px}
 .roulette-label{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:20px;letter-spacing:0.02em}
@@ -113,7 +118,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .footer-links a:hover{color:#fff}
 
 @media(min-width:768px){
-  .hero{height:240dvh}
+  .hero{height:90dvh}
   .glass-headline{font-size:44px}
   .glass-sub{font-size:16px;max-width:400px}
   .carousel-circle{width:260px;height:260px}
@@ -146,18 +151,16 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 </div>
 
 <section class="hero" id="hero">
-  <div class="hero-sticky">
-    <div class="wheel-container" id="wheelContainer">
-      <div class="wheel" id="wheel"></div>
-    </div>
-    <div class="glass-panel" id="glassPanel"></div>
-    <div class="glass-content" id="glassContent">
-      <p class="glass-welcome">Welcome to OZ.</p>
-      <h1 class="glass-headline">Stories Live Here.</h1>
-      <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
-      <a href="watch.html" class="cta-btn">Start Watching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-    </div>
+  <div class="wheel-container" id="wheelContainer">
+    <div class="wheel" id="wheel"></div>
   </div>
+</section>
+
+<section class="glass-section" id="glassSection">
+  <p class="glass-welcome">Welcome to OZ.</p>
+  <h1 class="glass-headline">Stories Live Here.</h1>
+  <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
+  <a href="watch.html" class="cta-btn">Start Watching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
 </section>
 
 <section class="browse-section" id="browse">
@@ -253,49 +256,25 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   document.addEventListener('touchstart',forcePlay,{once:true,passive:true});
   document.addEventListener('click',forcePlay,{once:true});
 
-  // === ENTRANCE SEQUENCE (Wizard of Oz) ===
+  // === ENTRANCE SEQUENCE ===
   var body=document.body;
   var header=document.getElementById('header');
   var wheelContainer=document.getElementById('wheelContainer');
-  var glassPanel=document.getElementById('glassPanel');
-  var glassContentEl=document.getElementById('glassContent');
+  var isDesktop=window.innerWidth>=768;
 
   function entrance(){
-    // 1. Body appears from black
-    body.style.transition='opacity 0.8s ease';
+    body.style.transition='opacity 1s ease';
     body.style.opacity='1';
 
-    // 2. Glass panel fades in first
     setTimeout(function(){
-      glassPanel.style.transition='opacity 0.8s ease';
-      glassPanel.style.opacity='1';
-    },200);
-
-    // 3. Glass content fades up with stagger
-    setTimeout(function(){
-      glassContentEl.style.transition='opacity 0.7s ease';
-      glassContentEl.style.opacity='1';
-      var ch=glassContentEl.children;
-      for(var i=0;i<ch.length;i++){
-        ch[i].style.opacity='0';ch[i].style.transform='translateY(14px)';
-        ch[i].style.transition='opacity 0.6s cubic-bezier(0.16,1,0.3,1) '+(i*0.12)+'s, transform 0.6s cubic-bezier(0.16,1,0.3,1) '+(i*0.12)+'s';
-      }
-      requestAnimationFrame(function(){
-        for(var i=0;i<ch.length;i++){ch[i].style.opacity='1';ch[i].style.transform='translateY(0)'}
-      });
-    },500);
-
-    // 4. Header drifts in
-    setTimeout(function(){
-      header.style.transition='opacity 0.7s ease, transform 0.7s ease';
+      header.style.transition='opacity 0.8s ease, transform 0.8s ease';
       header.style.opacity='1';header.style.transform='translateY(0)';
-    },600);
+    },300);
 
-    // 5. Circles bloom in LAST
     setTimeout(function(){
-      wheelContainer.style.transition='opacity 1.2s cubic-bezier(0.16,1,0.3,1)';
+      wheelContainer.style.transition='opacity 1.4s cubic-bezier(0.16,1,0.3,1)';
       wheelContainer.style.opacity='1';
-    },900);
+    },500);
   }
   requestAnimationFrame(function(){requestAnimationFrame(entrance)});
 
@@ -336,34 +315,8 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   wheel.addEventListener('pointercancel',function(){wDrag=false});
   animWheel();
 
-  // === SCROLL-DRIVEN GLASS (transform-based, zero layout cost) ===
-  var heroEl=document.getElementById('hero');
-  var targetY=50,currentY=50;
-
-  function updateTarget(){
-    var top=heroEl.getBoundingClientRect().top;
-    var travel=heroEl.offsetHeight-window.innerHeight;
-    var p=Math.max(0,Math.min(1,-top/travel));
-    targetY=50-p*50;
-  }
-
-  function animGlass(){
-    var d=targetY-currentY;
-    if(d>0.05||d<-0.05){
-      currentY+=d*0.1;
-      var t='translateY('+currentY+'%)';
-      glassPanel.style.transform=t;
-      glassContentEl.style.transform=t;
-    }
-    requestAnimationFrame(animGlass);
-  }
-
-  window.addEventListener('scroll',updateTarget,{passive:true});
-  updateTarget();
-  animGlass();
-
   // === SCROLL REVEAL (re-triggers) ===
-  var revealEls=document.querySelectorAll('.browse-section,.roulette-section,.footer-cta');
+  var revealEls=document.querySelectorAll('.glass-section,.browse-section,.roulette-section,.footer-cta');
   var revealObs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting)e.target.classList.add('revealed');
@@ -453,7 +406,6 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   var rouletteItems=WHEEL.slice().sort(function(){return Math.random()-0.5}).slice(0,10);
   var rouletteShows=allItems.slice().sort(function(){return Math.random()-0.5}).slice(0,10);
 
-  var isDesktop=window.innerWidth>=768;
   var rCount=10,rCX=isDesktop?240:170,rCY=isDesktop?170:130,rRX=isDesktop?200:145,rRY=isDesktop?115:85,rOrbSize=isDesktop?72:58;
   var rOrbs=[];
 
@@ -516,18 +468,30 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     }
   }
 
-  function snapToBottom(idx){
-    var target=1.5708-(idx/rCount)*6.2832;
-    while(target<rAngle-Math.PI)target+=6.2832;
-    while(target>rAngle+Math.PI)target-=6.2832;
-    rAngle=target;
-  }
+  var rSnapTarget=null;
 
   function animRoulette(){
     if(rSpinning){
       rAngle+=rSpinVel;
       rSpinVel*=0.985;
-      if(rSpinVel>-0.0005&&rSpinVel<0.0005){rSpinning=false;rSpinVel=0;showResult()}
+      if(rSpinVel>-0.001&&rSpinVel<0.001){
+        rSpinning=false;rSpinVel=0;
+        var c=getClosest();
+        rSelectedIdx=c;
+        rSnapTarget=1.5708-(c/rCount)*6.2832;
+        while(rSnapTarget<rAngle-Math.PI)rSnapTarget+=6.2832;
+        while(rSnapTarget>rAngle+Math.PI)rSnapTarget-=6.2832;
+      }
+    }else if(rSnapTarget!==null){
+      var d=rSnapTarget-rAngle;
+      if(Math.abs(d)<0.0005){
+        rAngle=rSnapTarget;
+        rSnapTarget=null;
+        rStopped=true;
+        showResult();
+      }else{
+        rAngle+=d*0.1;
+      }
     }else if(rDrag){
       // driven by pointer
     }else if(!rStopped){
@@ -541,7 +505,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 
   // Touch/drag on roulette
   rGalaxy.addEventListener('pointerdown',function(e){
-    if(rSpinning)return;
+    if(rSpinning||rStopped)return;
     rDrag=true;rLastX=e.clientX;rDragVel=0;rLastT=performance.now();
     rGalaxy.setPointerCapture(e.pointerId);
   });
@@ -561,10 +525,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   var spinResult=document.getElementById('spinResult');
 
   function showResult(){
-    var c=getClosest();
-    snapToBottom(c);
-    rStopped=true;
-    rSelectedIdx=c;
+    var c=rSelectedIdx;
     layoutRoulette();
     var item=rouletteShows[c]||allItems[c%allItems.length];
     document.getElementById('spinResultTitle').textContent=item.name;

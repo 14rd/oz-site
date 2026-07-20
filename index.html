@@ -61,7 +61,6 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
   pointer-events: none;
 }
 
@@ -70,7 +69,7 @@ body {
 .header-logo {
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: -0.04em;
   flex-shrink: 0;
 }
 
@@ -78,16 +77,19 @@ body {
   flex: 1;
   max-width: 280px;
   height: 38px;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: border-color 0.2s;
+  background: rgba(0,0,0,0.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  backdrop-filter: blur(24px) saturate(1.3);
 }
 
-.search-bar:hover { border-color: rgba(255,255,255,0.45); }
+.search-bar:hover { border-color: rgba(255,255,255,0.4); }
 
 .search-bar svg {
   width: 15px;
@@ -99,7 +101,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,9 +110,12 @@ body {
   flex-shrink: 0;
   cursor: pointer;
   transition: border-color 0.2s;
+  background: rgba(0,0,0,0.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  backdrop-filter: blur(24px) saturate(1.3);
 }
 
-.profile-btn:hover { border-color: rgba(255,255,255,0.45); }
+.profile-btn:hover { border-color: rgba(255,255,255,0.4); }
 
 /* ===== SECTION 1: HERO ===== */
 .hero {
@@ -149,19 +154,21 @@ body {
   overflow: hidden;
   will-change: transform;
   cursor: pointer;
+  background-size: cover;
+  background-position: center;
 }
 
+/* Glass: semi-transparent with blur — NOT opaque */
 .glass-panel {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: 50%;
-  background: rgba(0,0,0,0.80);
+  background: rgba(0,0,0,0.65);
   -webkit-backdrop-filter: blur(48px) saturate(1.2);
   backdrop-filter: blur(48px) saturate(1.2);
   z-index: 10;
-  transition: height 0.05s linear;
 }
 
 .glass-content {
@@ -177,7 +184,6 @@ body {
   text-align: center;
   padding: 0 28px 40px;
   height: 50%;
-  transition: height 0.05s linear;
 }
 
 .glass-welcome {
@@ -229,16 +235,13 @@ body {
 .cta-btn:hover { opacity: 0.9; }
 .cta-btn:active { opacity: 0.8; }
 
-.cta-btn svg {
-  width: 18px;
-  height: 18px;
-}
+.cta-btn svg { width: 18px; height: 18px; }
 
 /* ===== SECTION 2: BROWSE ===== */
 .browse-section {
   position: relative;
   background: #000;
-  padding: 48px 0 56px;
+  padding: 36px 0 44px;
 }
 
 .section-label {
@@ -247,40 +250,48 @@ body {
   font-weight: 400;
   color: rgba(255,255,255,0.45);
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   letter-spacing: 0.02em;
+}
+
+.carousel-wrapper {
+  position: relative;
 }
 
 .carousel-track {
   display: flex;
-  gap: 12px;
-  padding: 0 calc(50vw - 110px);
+  gap: 14px;
+  padding: 0 calc(50vw - 105px);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   cursor: grab;
+  scroll-behavior: auto;
+  scroll-snap-type: x mandatory;
 }
+
+.carousel-item { scroll-snap-align: center; }
 
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track:active { cursor: grabbing; }
 
 .carousel-item {
   flex-shrink: 0;
-  width: 220px;
-  scroll-snap-align: center;
+  width: 210px;
   display: flex;
   flex-direction: column;
   align-items: center;
   will-change: transform, opacity;
+  transition: transform 0.15s ease, opacity 0.15s ease, filter 0.15s ease;
 }
 
 .carousel-circle {
-  width: 220px;
-  height: 220px;
+  width: 210px;
+  height: 210px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+  background-size: 300% 300%;
 }
 
 .carousel-circle .circle-overlay {
@@ -290,13 +301,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.18);
   text-align: center;
   padding: 16px;
 }
 
 .carousel-title {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -311,41 +322,33 @@ body {
   margin-top: 5px;
 }
 
-.browse-section + .browse-section {
-  padding-top: 8px;
-}
+.browse-section + .browse-section { padding-top: 4px; }
 
-/* ===== ANIMATED GRADIENT CIRCLES ===== */
-@keyframes gradShift1 {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Animated gradients */
+@keyframes gFlow1 {
+  0%   { background-position: 0% 0%; }
+  25%  { background-position: 100% 50%; }
+  50%  { background-position: 50% 100%; }
+  75%  { background-position: 0% 50%; }
+  100% { background-position: 0% 0%; }
 }
-@keyframes gradShift2 {
-  0%   { background-position: 100% 0%; }
-  50%  { background-position: 0% 100%; }
-  100% { background-position: 100% 0%; }
+@keyframes gFlow2 {
+  0%   { background-position: 100% 100%; }
+  33%  { background-position: 0% 50%; }
+  66%  { background-position: 50% 0%; }
+  100% { background-position: 100% 100%; }
 }
-@keyframes gradShift3 {
+@keyframes gFlow3 {
   0%   { background-position: 50% 0%; }
   50%  { background-position: 50% 100%; }
   100% { background-position: 50% 0%; }
 }
 
-.anim-grad {
-  background-size: 200% 200%;
-  animation: gradShift1 8s ease infinite;
-}
-.anim-grad-2 {
-  background-size: 200% 200%;
-  animation: gradShift2 10s ease infinite;
-}
-.anim-grad-3 {
-  background-size: 200% 200%;
-  animation: gradShift3 12s ease infinite;
-}
+.ag1 { animation: gFlow1 10s ease infinite; }
+.ag2 { animation: gFlow2 12s ease infinite; }
+.ag3 { animation: gFlow3 14s ease infinite; }
 
-/* ===== ROULETTE SECTION ===== */
+/* ===== ROULETTE (3D elliptical from v1) ===== */
 .roulette-section {
   position: relative;
   background: #000;
@@ -361,30 +364,29 @@ body {
   font-weight: 400;
   color: rgba(255,255,255,0.4);
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
   letter-spacing: 0.02em;
 }
 
 .roulette-container {
   position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
+  width: 340px;
+  height: 280px;
 }
 
-.roulette-wheel {
+.roulette-galaxy {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+  touch-action: none;
 }
 
-.roulette-item {
+.roulette-orb {
   position: absolute;
   border-radius: 50%;
   overflow: hidden;
-  width: 64px;
-  height: 64px;
+  will-change: transform;
+  background-size: 300% 300%;
 }
 
 .roulette-center {
@@ -392,57 +394,49 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 0;
 }
 
 .spin-btn {
-  width: 90px;
-  height: 90px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.5);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   color: #fff;
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.2s;
 }
 
 .spin-btn:hover {
-  border-color: rgba(255,255,255,0.5);
-  transform: scale(1.05);
+  border-color: rgba(255,255,255,0.45);
+  transform: scale(1.06);
 }
 
-.spin-btn:active {
-  transform: scale(0.97);
-}
+.spin-btn:active { transform: scale(0.96); }
 
 .spin-result {
-  position: absolute;
-  top: calc(50% + 60px);
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
+  margin-top: 24px;
   opacity: 0;
-  transition: opacity 0.4s ease;
-  white-space: nowrap;
+  transition: opacity 0.5s ease;
 }
 
-.spin-result.visible {
-  opacity: 1;
-}
+.spin-result.visible { opacity: 1; }
 
 .spin-result-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -453,32 +447,18 @@ body {
   color: rgba(255,255,255,0.5);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
-/* Pointer triangle at top */
-.roulette-pointer {
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 12px solid rgba(255,255,255,0.7);
-  z-index: 15;
-}
-
-/* ===== SECTION 3: FOOTER CTA ===== */
+/* ===== FOOTER CTA ===== */
 .footer-cta {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 100px 32px 80px;
-  min-height: 60dvh;
+  padding: 80px 32px 60px;
+  min-height: 55dvh;
 }
 
 .footer-headline {
@@ -501,7 +481,7 @@ body {
 .footer-logo {
   font-size: 18px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: -0.04em;
 }
 
 .footer-links {
@@ -539,7 +519,7 @@ body {
   <div class="profile-btn">E</div>
 </header>
 
-<!-- SECTION 1: HERO with scroll-driven glass -->
+<!-- SECTION 1: HERO -->
 <section class="hero" id="hero">
   <div class="hero-sticky">
     <div class="wheel-container">
@@ -564,32 +544,31 @@ body {
 <!-- SECTION 2: GENRES -->
 <section class="browse-section" id="browse">
   <p class="section-label">Genres:</p>
-  <div class="carousel-track" id="genreCarousel"></div>
+  <div class="carousel-wrapper"><div class="carousel-track" id="genreCarousel"></div></div>
 </section>
 
 <!-- SECTION 2B: MORE TO EXPLORE -->
 <section class="browse-section">
   <p class="section-label">More to explore:</p>
-  <div class="carousel-track" id="showCarousel"></div>
+  <div class="carousel-wrapper"><div class="carousel-track" id="showCarousel"></div></div>
 </section>
 
 <!-- ROULETTE -->
 <section class="roulette-section">
   <p class="roulette-label">Not sure what to watch?</p>
   <div class="roulette-container">
-    <div class="roulette-pointer"></div>
-    <div class="roulette-wheel" id="rouletteWheel"></div>
+    <div class="roulette-galaxy" id="rouletteGalaxy"></div>
     <div class="roulette-center">
       <button class="spin-btn" id="spinBtn">Spin</button>
     </div>
-    <div class="spin-result" id="spinResult">
-      <div class="spin-result-title" id="spinResultTitle"></div>
-      <div class="spin-result-meta" id="spinResultMeta"></div>
-    </div>
+  </div>
+  <div class="spin-result" id="spinResult">
+    <div class="spin-result-title" id="spinResultTitle"></div>
+    <div class="spin-result-meta" id="spinResultMeta"></div>
   </div>
 </section>
 
-<!-- SECTION 3: FOOTER CTA -->
+<!-- FOOTER CTA -->
 <section class="footer-cta">
   <h2 class="footer-headline">The platform disappears.<br>The story remains.</h2>
   <a href="#hero" class="cta-btn">
@@ -617,19 +596,16 @@ body {
     return;
   }
 
-  // ===== 2D FLAT WHEEL =====
+  // ===== HERO WHEEL — equal sizes, equidistant =====
   const wheel = document.getElementById('wheel');
-  const wheelSize = 340;
-  const cx = wheelSize / 2, cy = wheelSize / 2;
-  const radius = 140;
-  const orbCount = 18;
-  const orbSizes = [];
-  const orbEls = [];
+  const ORB_COUNT = 18;
+  const ORB_SIZE = 54;
+  const W = 340, CX = W / 2, CY = W / 2, RADIUS = 145;
 
   const orbGrads = [
     'linear-gradient(135deg, #e85d3a, #c44, #2a1a1a)',
     'linear-gradient(145deg, #f0c090, #d4956a, #3a2010)',
-    'radial-gradient(circle at 45% 45%, #fff 8%, #bbb 25%, #555 55%, #222)',
+    'radial-gradient(circle at 45% 45%, #eee 8%, #aaa 30%, #444 65%, #181818)',
     'linear-gradient(135deg, #e8c860, #c9a84c, #3a2800)',
     'linear-gradient(150deg, #90ccee, #5588aa, #1a2a3a)',
     'linear-gradient(135deg, #ff6644, #cc4433, #2a0808)',
@@ -647,63 +623,42 @@ body {
     'linear-gradient(155deg, #ffaa66, #aa6622, #2a1500)',
   ];
 
-  for (let i = 0; i < orbCount; i++) {
-    const size = 48 + Math.sin(i * 1.3) * 14;
-    orbSizes.push(size);
+  const orbEls = [];
+
+  for (let i = 0; i < ORB_COUNT; i++) {
     const el = document.createElement('div');
     el.className = 'wheel-item';
-    el.style.width = size + 'px';
-    el.style.height = size + 'px';
-    el.style.background = orbGrads[i % orbGrads.length];
+    el.style.width = ORB_SIZE + 'px';
+    el.style.height = ORB_SIZE + 'px';
+    el.style.background = orbGrads[i];
     wheel.appendChild(el);
     orbEls.push(el);
   }
 
-  let wheelAngle = 0;
-  let autoSpeed = 0.001;
-  let isDragging = false;
-  let lastX = 0;
-  let velocity = 0;
+  let wAngle = 0, wAuto = 0.001, wDrag = false, wLastX = 0, wVel = 0;
 
   function layoutWheel() {
-    for (let i = 0; i < orbCount; i++) {
-      const a = wheelAngle + (i / orbCount) * Math.PI * 2;
-      const s = orbSizes[i];
-      const x = cx + Math.cos(a) * radius - s / 2;
-      const y = cy + Math.sin(a) * radius - s / 2;
-      orbEls[i].style.left = x + 'px';
-      orbEls[i].style.top = y + 'px';
+    for (let i = 0; i < ORB_COUNT; i++) {
+      const a = wAngle + (i / ORB_COUNT) * Math.PI * 2;
+      orbEls[i].style.left = (CX + Math.cos(a) * RADIUS - ORB_SIZE / 2) + 'px';
+      orbEls[i].style.top = (CY + Math.sin(a) * RADIUS - ORB_SIZE / 2) + 'px';
     }
   }
 
-  function animateWheel() {
-    if (!isDragging) {
-      wheelAngle += autoSpeed + velocity;
-      velocity *= 0.97;
-    }
+  function animWheel() {
+    if (!wDrag) { wAngle += wAuto + wVel; wVel *= 0.97; }
     layoutWheel();
-    requestAnimationFrame(animateWheel);
+    requestAnimationFrame(animWheel);
   }
 
-  wheel.addEventListener('pointerdown', e => {
-    isDragging = true;
-    lastX = e.clientX;
-    velocity = 0;
-    wheel.setPointerCapture(e.pointerId);
-  });
-  wheel.addEventListener('pointermove', e => {
-    if (!isDragging) return;
-    const dx = e.clientX - lastX;
-    wheelAngle += dx * 0.004;
-    velocity = dx * 0.002;
-    lastX = e.clientX;
-  });
-  wheel.addEventListener('pointerup', () => { isDragging = false; });
-  wheel.addEventListener('pointercancel', () => { isDragging = false; });
+  wheel.addEventListener('pointerdown', e => { wDrag = true; wLastX = e.clientX; wVel = 0; wheel.setPointerCapture(e.pointerId); });
+  wheel.addEventListener('pointermove', e => { if (!wDrag) return; const dx = e.clientX - wLastX; wAngle += dx * 0.004; wVel = dx * 0.002; wLastX = e.clientX; });
+  wheel.addEventListener('pointerup', () => { wDrag = false; });
+  wheel.addEventListener('pointercancel', () => { wDrag = false; });
 
-  animateWheel();
+  animWheel();
 
-  // ===== SCROLL-DRIVEN GLASS =====
+  // ===== SCROLL-DRIVEN GLASS (transparent blur, not opaque) =====
   const hero = document.getElementById('hero');
   const glassPanel = document.getElementById('glassPanel');
   const glassContent = document.getElementById('glassContent');
@@ -713,127 +668,181 @@ body {
     const scrolled = -rect.top;
     const travel = hero.offsetHeight - window.innerHeight;
     const progress = Math.max(0, Math.min(1, scrolled / travel));
-    const glassHeight = 50 + progress * 50;
-    glassPanel.style.height = glassHeight + '%';
-    glassContent.style.height = glassHeight + '%';
+    const h = 50 + progress * 50;
+    glassPanel.style.height = h + '%';
+    glassContent.style.height = h + '%';
   }
 
   window.addEventListener('scroll', updateGlass, { passive: true });
   updateGlass();
 
-  // ===== CAROUSELS =====
+  // ===== INFINITE CAROUSELS =====
   const genres = [
-    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3058, #2a5080, #0a1525)', anim: 'anim-grad' },
-    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #501010, #702020, #1a0808)', anim: 'anim-grad-2' },
-    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #504018, #706028, #2a1a0a)', anim: 'anim-grad-3' },
-    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #581818, #803030, #280a0a)', anim: 'anim-grad' },
-    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #301a50, #4a2a70, #150a28)', anim: 'anim-grad-2' },
-    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a4028, #2a6038, #0a1a10)', anim: 'anim-grad-3' },
-    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #303030, #484848, #0f0f0f)', anim: 'anim-grad' },
-    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #403018, #604828, #1a100a)', anim: 'anim-grad-2' },
-    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a3040, #1a5060, #051518)', anim: 'anim-grad-3' },
-    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #401828, #602848, #1a0a15)', anim: 'anim-grad' },
+    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3565, #2a5588, #0a1828, #1a3565)', anim: 'ag1' },
+    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #601818, #882828, #200808, #601818)', anim: 'ag2' },
+    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #605020, #887030, #2a1a08, #605020)', anim: 'ag3' },
+    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #682020, #903838, #300a0a, #682020)', anim: 'ag1' },
+    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #382060, #582a88, #180a30, #382060)', anim: 'ag2' },
+    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a4828, #2a6840, #0a1a10, #1a4828)', anim: 'ag3' },
+    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #383838, #505050, #141414, #383838)', anim: 'ag1' },
+    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #483820, #685030, #1a100a, #483820)', anim: 'ag2' },
+    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a3848, #1a5868, #051820, #0a3848)', anim: 'ag3' },
+    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #482030, #682850, #1a0a15, #482030)', anim: 'ag1' },
   ];
 
   const showsData = [
-    { name: 'Akira',          count: '4 Episodes',    grad: 'linear-gradient(150deg, #cc2200, #881100, #440800, #220400)', anim: 'anim-grad' },
-    { name: 'Die Hard',       count: '9 Episodes',    grad: 'linear-gradient(150deg, #384050, #506070, #1a2028)', anim: 'anim-grad-2' },
-    { name: 'Mr Money',       count: '44 Episodes',   grad: 'linear-gradient(150deg, #2a6030, #185020, #0a2810)', anim: 'anim-grad-3' },
-    { name: 'Little Robert',  count: '203 Episodes',  grad: 'linear-gradient(150deg, #5a3080, #3a1860, #1a0830)', anim: 'anim-grad' },
-    { name: 'Ghost Frame',    count: '68 Episodes',   grad: 'linear-gradient(150deg, #183848, #285868, #0a1820)', anim: 'anim-grad-2' },
-    { name: 'Typecast',       count: '1 Episode',     grad: 'linear-gradient(150deg, #585020, #403810, #201a08)', anim: 'anim-grad-3' },
+    { name: 'Akira',          count: '4 Episodes',    grad: 'linear-gradient(150deg, #cc2200, #881500, #440a00, #cc2200)', anim: 'ag2' },
+    { name: 'Die Hard',       count: '9 Episodes',    grad: 'linear-gradient(150deg, #384860, #506878, #1a2030, #384860)', anim: 'ag3' },
+    { name: 'Mr Money',       count: '44 Episodes',   grad: 'linear-gradient(150deg, #2a6835, #186028, #0a3010, #2a6835)', anim: 'ag1' },
+    { name: 'Little Robert',  count: '203 Episodes',  grad: 'linear-gradient(150deg, #5a3888, #3a1868, #1a0838, #5a3888)', anim: 'ag2' },
+    { name: 'Ghost Frame',    count: '68 Episodes',   grad: 'linear-gradient(150deg, #184858, #286878, #0a2028, #184858)', anim: 'ag3' },
+    { name: 'Typecast',       count: '1 Episode',     grad: 'linear-gradient(150deg, #605828, #484018, #282008, #605828)', anim: 'ag1' },
   ];
 
-  function buildCarousel(containerId, data) {
-    const track = document.getElementById(containerId);
-    data.forEach(item => {
-      const el = document.createElement('div');
-      el.className = 'carousel-item';
-      el.innerHTML = `
-        <div class="carousel-circle ${item.anim}" style="background: ${item.grad}">
-          <div class="circle-overlay">
-            <span class="carousel-title">${item.name}</span>
-            <span class="carousel-meta">${item.count}</span>
-          </div>
-        </div>
-      `;
-      track.appendChild(el);
-    });
-    applySpatialEffect(track);
-    track.addEventListener('scroll', () => applySpatialEffect(track), { passive: true });
+  function makeItemHTML(item) {
+    return `<div class="carousel-circle ${item.anim}" style="background: ${item.grad}">
+      <div class="circle-overlay">
+        <span class="carousel-title">${item.name}</span>
+        <span class="carousel-meta">${item.count}</span>
+      </div>
+    </div>`;
   }
 
-  function applySpatialEffect(track) {
+  function buildInfiniteCarousel(containerId, data) {
+    const track = document.getElementById(containerId);
+    for (let s = 0; s < 5; s++) {
+      data.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'carousel-item';
+        el.innerHTML = makeItemHTML(item);
+        track.appendChild(el);
+      });
+    }
+
+    const itemW = 210 + 14;
+    const oneSetW = data.length * itemW;
+
+    track.scrollLeft = oneSetW * 2;
+
+    function loopCheck() {
+      const sl = track.scrollLeft;
+      if (sl < oneSetW) {
+        track.scrollLeft += oneSetW;
+      } else if (sl > oneSetW * 3) {
+        track.scrollLeft -= oneSetW;
+      }
+    }
+
+    track.addEventListener('scroll', () => {
+      loopCheck();
+      applySpatial(track);
+    }, { passive: true });
+
+    applySpatial(track);
+  }
+
+  function applySpatial(track) {
     const rect = track.getBoundingClientRect();
     const center = rect.left + rect.width / 2;
     track.querySelectorAll('.carousel-item').forEach(item => {
       const ir = item.getBoundingClientRect();
       const ic = ir.left + ir.width / 2;
       const dist = Math.abs(center - ic);
-      const max = rect.width / 2;
+      const max = rect.width * 0.55;
       const ratio = Math.min(dist / max, 1);
-      const scale = 1 - ratio * 0.18;
-      const opacity = 1 - ratio * 0.35;
-      const brightness = 1 - ratio * 0.15;
+      const scale = 1 - ratio * 0.15;
+      const opacity = 1 - ratio * 0.28;
+      const brightness = 1 - ratio * 0.1;
       item.style.transform = `scale(${scale})`;
       item.style.opacity = opacity;
       item.style.filter = `brightness(${brightness})`;
     });
   }
 
-  buildCarousel('genreCarousel', genres);
-  buildCarousel('showCarousel', showsData);
+  buildInfiniteCarousel('genreCarousel', genres);
+  buildInfiniteCarousel('showCarousel', showsData);
 
-  setTimeout(() => {
-    document.querySelectorAll('.carousel-track').forEach(track => {
-      track.scrollLeft = (track.scrollWidth - track.clientWidth) / 2;
-    });
-  }, 50);
+  // ===== 3D ROULETTE (from v1 style) =====
+  const rGalaxy = document.getElementById('rouletteGalaxy');
+  const allShows = [
+    ...showsData,
+    { name: 'Anime Mix', count: 'Curated', grad: genres[0].grad, anim: 'ag1' },
+    { name: 'Horror Mix', count: 'Curated', grad: genres[1].grad, anim: 'ag2' },
+    { name: 'Action Mix', count: 'Curated', grad: genres[2].grad, anim: 'ag3' },
+    { name: 'Sci-Fi Mix', count: 'Curated', grad: genres[8].grad, anim: 'ag1' },
+  ];
 
-  // ===== ROULETTE =====
-  const allShows = [...showsData, ...genres.slice(0, 4).map(g => ({ name: g.name + ' Mix', count: 'Curated', grad: g.grad, anim: g.anim }))];
-  const rouletteWheel = document.getElementById('rouletteWheel');
-  const rouletteCount = allShows.length;
-  const rR = 120;
+  const rCount = allShows.length;
+  const rCX = 170, rCY = 140, rRX = 140, rRY = 80;
+  const rOrbSize = 60;
+  const rOrbs = [];
 
   allShows.forEach((show, i) => {
-    const a = (i / rouletteCount) * Math.PI * 2 - Math.PI / 2;
     const el = document.createElement('div');
-    el.className = 'roulette-item ' + show.anim;
+    el.className = 'roulette-orb ' + show.anim;
+    el.style.width = rOrbSize + 'px';
+    el.style.height = rOrbSize + 'px';
     el.style.background = show.grad;
-    el.style.left = (150 + Math.cos(a) * rR - 32) + 'px';
-    el.style.top = (150 + Math.sin(a) * rR - 32) + 'px';
-    rouletteWheel.appendChild(el);
+    rGalaxy.appendChild(el);
+    rOrbs.push(el);
   });
 
-  let currentRotation = 0;
-  let isSpinning = false;
-  const spinBtn = document.getElementById('spinBtn');
-  const spinResult = document.getElementById('spinResult');
-  const spinResultTitle = document.getElementById('spinResultTitle');
-  const spinResultMeta = document.getElementById('spinResultMeta');
+  let rAngle = 0, rAuto = 0.002, rSpinVel = 0, rSpinning = false;
 
-  spinBtn.addEventListener('click', () => {
-    if (isSpinning) return;
-    isSpinning = true;
-    spinResult.classList.remove('visible');
+  function layoutRoulette() {
+    for (let i = 0; i < rCount; i++) {
+      const a = rAngle + (i / rCount) * Math.PI * 2;
+      const x = rCX + Math.cos(a) * rRX - rOrbSize / 2;
+      const y = rCY + Math.sin(a) * rRY - rOrbSize / 2;
+      const depth = (Math.sin(a) + 1) / 2;
+      const scale = 0.65 + depth * 0.35;
+      const z = Math.floor(depth * 10);
+      rOrbs[i].style.left = x + 'px';
+      rOrbs[i].style.top = y + 'px';
+      rOrbs[i].style.transform = `scale(${scale})`;
+      rOrbs[i].style.zIndex = z;
+      rOrbs[i].style.opacity = (0.4 + depth * 0.6).toFixed(2);
+    }
+  }
 
-    const extraSpins = 5 + Math.random() * 3;
-    const targetIndex = Math.floor(Math.random() * rouletteCount);
-    const targetAngle = (targetIndex / rouletteCount) * 360;
-    const totalRotation = extraSpins * 360 + targetAngle;
-    currentRotation += totalRotation;
+  function animRoulette() {
+    if (rSpinning) {
+      rAngle += rSpinVel;
+      rSpinVel *= 0.985;
+      if (Math.abs(rSpinVel) < 0.0005) {
+        rSpinning = false;
+        rSpinVel = 0;
+        showSpinResult();
+      }
+    } else {
+      rAngle += rAuto;
+    }
+    layoutRoulette();
+    requestAnimationFrame(animRoulette);
+  }
 
-    rouletteWheel.style.transform = `rotate(${currentRotation}deg)`;
+  function showSpinResult() {
+    let closest = 0, minDist = Infinity;
+    for (let i = 0; i < rCount; i++) {
+      const a = rAngle + (i / rCount) * Math.PI * 2;
+      const norm = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      const dist = Math.abs(norm - Math.PI * 1.5);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    }
+    const show = allShows[closest];
+    document.getElementById('spinResultTitle').textContent = show.name;
+    document.getElementById('spinResultMeta').textContent = show.count;
+    document.getElementById('spinResult').classList.add('visible');
+  }
 
-    setTimeout(() => {
-      const show = allShows[targetIndex];
-      spinResultTitle.textContent = show.name;
-      spinResultMeta.textContent = show.count;
-      spinResult.classList.add('visible');
-      isSpinning = false;
-    }, 4200);
+  document.getElementById('spinBtn').addEventListener('click', () => {
+    if (rSpinning) return;
+    rSpinning = true;
+    rSpinVel = 0.15 + Math.random() * 0.1;
+    document.getElementById('spinResult').classList.remove('visible');
   });
+
+  animRoulette();
 
 })();
 </script>

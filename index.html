@@ -55,14 +55,17 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 200;
   padding: calc(14px + var(--sat)) 20px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
   background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+  pointer-events: none;
 }
+
+.header > * { pointer-events: auto; }
 
 .header-logo {
   font-size: 22px;
@@ -102,7 +105,6 @@ body {
   justify-content: center;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.02em;
   flex-shrink: 0;
   cursor: pointer;
   transition: border-color 0.2s;
@@ -113,58 +115,69 @@ body {
 /* ===== SECTION 1: HERO ===== */
 .hero {
   position: relative;
+  height: 200dvh;
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
   height: 100dvh;
   overflow: hidden;
 }
 
-.galaxy-container {
+.wheel-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 18vh;
 }
 
-.galaxy {
+.wheel {
   position: relative;
-  width: 360px;
-  height: 300px;
+  width: 340px;
+  height: 340px;
   touch-action: none;
 }
 
-.galaxy-item {
+.wheel-item {
   position: absolute;
   border-radius: 50%;
   overflow: hidden;
-  background: #111;
   will-change: transform;
   cursor: pointer;
-  transition: filter 0.3s ease;
 }
 
-.galaxy-item:hover { filter: brightness(1.15); }
-
-.glass-overlay {
+.glass-panel {
   position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
-  height: 48%;
-  background: rgba(0,0,0,0.25);
+  bottom: 0;
+  height: 50%;
+  background: rgba(0,0,0,0.80);
   -webkit-backdrop-filter: blur(48px) saturate(1.2);
   backdrop-filter: blur(48px) saturate(1.2);
+  z-index: 10;
+  transition: height 0.05s linear;
+}
+
+.glass-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 11;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 28px 20px;
   text-align: center;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 12%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%);
+  padding: 0 28px 40px;
+  height: 50%;
+  transition: height 0.05s linear;
 }
 
 .glass-welcome {
@@ -240,7 +253,7 @@ body {
 
 .carousel-track {
   display: flex;
-  gap: 18px;
+  gap: 12px;
   padding: 0 calc(50vw - 110px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -267,7 +280,6 @@ body {
   height: 220px;
   border-radius: 50%;
   overflow: hidden;
-  background: #111;
   position: relative;
 }
 
@@ -278,7 +290,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.2);
   text-align: center;
   padding: 16px;
 }
@@ -303,6 +315,161 @@ body {
   padding-top: 8px;
 }
 
+/* ===== ANIMATED GRADIENT CIRCLES ===== */
+@keyframes gradShift1 {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes gradShift2 {
+  0%   { background-position: 100% 0%; }
+  50%  { background-position: 0% 100%; }
+  100% { background-position: 100% 0%; }
+}
+@keyframes gradShift3 {
+  0%   { background-position: 50% 0%; }
+  50%  { background-position: 50% 100%; }
+  100% { background-position: 50% 0%; }
+}
+
+.anim-grad {
+  background-size: 200% 200%;
+  animation: gradShift1 8s ease infinite;
+}
+.anim-grad-2 {
+  background-size: 200% 200%;
+  animation: gradShift2 10s ease infinite;
+}
+.anim-grad-3 {
+  background-size: 200% 200%;
+  animation: gradShift3 12s ease infinite;
+}
+
+/* ===== ROULETTE SECTION ===== */
+.roulette-section {
+  position: relative;
+  background: #000;
+  padding: 60px 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roulette-label {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  margin-bottom: 36px;
+  letter-spacing: 0.02em;
+}
+
+.roulette-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.roulette-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.roulette-item {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+}
+
+.roulette-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.spin-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.6);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.spin-btn:hover {
+  border-color: rgba(255,255,255,0.5);
+  transform: scale(1.05);
+}
+
+.spin-btn:active {
+  transform: scale(0.97);
+}
+
+.spin-result {
+  position: absolute;
+  top: calc(50% + 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  white-space: nowrap;
+}
+
+.spin-result.visible {
+  opacity: 1;
+}
+
+.spin-result-title {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.spin-result-meta {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* Pointer triangle at top */
+.roulette-pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid rgba(255,255,255,0.7);
+  z-index: 15;
+}
+
 /* ===== SECTION 3: FOOTER CTA ===== */
 .footer-cta {
   display: flex;
@@ -311,7 +478,7 @@ body {
   justify-content: center;
   text-align: center;
   padding: 100px 32px 80px;
-  min-height: 65dvh;
+  min-height: 60dvh;
 }
 
 .footer-headline {
@@ -372,22 +539,25 @@ body {
   <div class="profile-btn">E</div>
 </header>
 
-<!-- SECTION 1: HERO -->
+<!-- SECTION 1: HERO with scroll-driven glass -->
 <section class="hero" id="hero">
-  <div class="galaxy-container">
-    <div class="galaxy" id="galaxy"></div>
-  </div>
-  <div class="glass-overlay">
-    <p class="glass-welcome">Welcome to OZ.</p>
-    <h1 class="glass-headline">Stories Live Here.</h1>
-    <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
-    <a href="#browse" class="cta-btn">
-      Start Watching
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
-    </a>
+  <div class="hero-sticky">
+    <div class="wheel-container">
+      <div class="wheel" id="wheel"></div>
+    </div>
+    <div class="glass-panel" id="glassPanel"></div>
+    <div class="glass-content" id="glassContent">
+      <p class="glass-welcome">Welcome to OZ.</p>
+      <h1 class="glass-headline">Stories Live Here.</h1>
+      <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
+      <a href="#browse" class="cta-btn">
+        Start Watching
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -401,6 +571,22 @@ body {
 <section class="browse-section">
   <p class="section-label">More to explore:</p>
   <div class="carousel-track" id="showCarousel"></div>
+</section>
+
+<!-- ROULETTE -->
+<section class="roulette-section">
+  <p class="roulette-label">Not sure what to watch?</p>
+  <div class="roulette-container">
+    <div class="roulette-pointer"></div>
+    <div class="roulette-wheel" id="rouletteWheel"></div>
+    <div class="roulette-center">
+      <button class="spin-btn" id="spinBtn">Spin</button>
+    </div>
+    <div class="spin-result" id="spinResult">
+      <div class="spin-result-title" id="spinResultTitle"></div>
+      <div class="spin-result-meta" id="spinResultMeta"></div>
+    </div>
+  </div>
 </section>
 
 <!-- SECTION 3: FOOTER CTA -->
@@ -431,110 +617,131 @@ body {
     return;
   }
 
-  // ===== GALAXY =====
-  const galaxy = document.getElementById('galaxy');
-  const shows = [
-    { grad: 'linear-gradient(135deg, #e85d3a 0%, #c44 40%, #2a1a1a 100%)', size: 80 },
-    { grad: 'linear-gradient(145deg, #f0c090 0%, #d4956a 50%, #3a2010 100%)', size: 72 },
-    { grad: 'radial-gradient(circle at 45% 45%, #fff 8%, #bbb 25%, #555 55%, #222 100%)', size: 78 },
-    { grad: 'linear-gradient(135deg, #e8c860 0%, #c9a84c 50%, #3a2800 100%)', size: 70 },
-    { grad: 'linear-gradient(150deg, #90ccee 0%, #5588aa 50%, #1a2a3a 100%)', size: 82 },
-    { grad: 'linear-gradient(135deg, #ff6644 0%, #cc4433 50%, #2a0808 100%)', size: 68 },
-    { grad: 'linear-gradient(135deg, #88cc88 0%, #5a7a5a 50%, #1a2a1a 100%)', size: 74 },
-    { grad: 'linear-gradient(135deg, #bb88ff 0%, #7a6a9a 50%, #1a1a2a 100%)', size: 70 },
-    { grad: 'linear-gradient(135deg, #88bbee 0%, #446688 50%, #0a1a2a 100%)', size: 66 },
-    { grad: 'linear-gradient(135deg, #55cc88 0%, #3a7a5a 50%, #0a2a1a 100%)', size: 62 },
+  // ===== 2D FLAT WHEEL =====
+  const wheel = document.getElementById('wheel');
+  const wheelSize = 340;
+  const cx = wheelSize / 2, cy = wheelSize / 2;
+  const radius = 140;
+  const orbCount = 18;
+  const orbSizes = [];
+  const orbEls = [];
+
+  const orbGrads = [
+    'linear-gradient(135deg, #e85d3a, #c44, #2a1a1a)',
+    'linear-gradient(145deg, #f0c090, #d4956a, #3a2010)',
+    'radial-gradient(circle at 45% 45%, #fff 8%, #bbb 25%, #555 55%, #222)',
+    'linear-gradient(135deg, #e8c860, #c9a84c, #3a2800)',
+    'linear-gradient(150deg, #90ccee, #5588aa, #1a2a3a)',
+    'linear-gradient(135deg, #ff6644, #cc4433, #2a0808)',
+    'linear-gradient(135deg, #88cc88, #5a7a5a, #1a2a1a)',
+    'linear-gradient(135deg, #bb88ff, #7a6a9a, #1a1a2a)',
+    'linear-gradient(135deg, #88bbee, #446688, #0a1a2a)',
+    'linear-gradient(135deg, #55cc88, #3a7a5a, #0a2a1a)',
+    'linear-gradient(160deg, #ff8866, #cc5533, #331108)',
+    'linear-gradient(140deg, #dd99cc, #995577, #220a18)',
+    'linear-gradient(135deg, #aaddff, #5588bb, #0a1828)',
+    'linear-gradient(150deg, #ffcc44, #aa8822, #2a1a00)',
+    'linear-gradient(135deg, #44bbaa, #227766, #0a2a22)',
+    'linear-gradient(145deg, #ff5577, #aa2244, #220510)',
+    'linear-gradient(135deg, #99aaff, #5566aa, #0a0a2a)',
+    'linear-gradient(155deg, #ffaa66, #aa6622, #2a1500)',
   ];
 
-  const items = [];
-  const cx = 180, cy = 150;
-  const rx = 155, ry = 85;
-
-  shows.forEach((show, i) => {
+  for (let i = 0; i < orbCount; i++) {
+    const size = 48 + Math.sin(i * 1.3) * 14;
+    orbSizes.push(size);
     const el = document.createElement('div');
-    el.className = 'galaxy-item';
-    el.style.width = show.size + 'px';
-    el.style.height = show.size + 'px';
-    el.style.background = show.grad;
-    galaxy.appendChild(el);
-    items.push({ el, size: show.size });
-  });
+    el.className = 'wheel-item';
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.background = orbGrads[i % orbGrads.length];
+    wheel.appendChild(el);
+    orbEls.push(el);
+  }
 
-  let angle = 0;
-  let autoSpeed = 0.0015;
+  let wheelAngle = 0;
+  let autoSpeed = 0.001;
   let isDragging = false;
   let lastX = 0;
   let velocity = 0;
 
-  function layoutGalaxy() {
-    const n = items.length;
-    items.forEach((item, i) => {
-      const a = angle + (i / n) * Math.PI * 2;
-      const x = cx + Math.cos(a) * rx - item.size / 2;
-      const y = cy + Math.sin(a) * ry - item.size / 2;
-      const depth = (Math.sin(a) + 1) / 2;
-      const scale = 0.65 + depth * 0.35;
-      const z = Math.floor(depth * 10);
-      item.el.style.left = x + 'px';
-      item.el.style.top = y + 'px';
-      item.el.style.transform = `scale(${scale})`;
-      item.el.style.zIndex = z;
-      item.el.style.opacity = 0.4 + depth * 0.6;
-    });
+  function layoutWheel() {
+    for (let i = 0; i < orbCount; i++) {
+      const a = wheelAngle + (i / orbCount) * Math.PI * 2;
+      const s = orbSizes[i];
+      const x = cx + Math.cos(a) * radius - s / 2;
+      const y = cy + Math.sin(a) * radius - s / 2;
+      orbEls[i].style.left = x + 'px';
+      orbEls[i].style.top = y + 'px';
+    }
   }
 
-  function animate() {
+  function animateWheel() {
     if (!isDragging) {
-      angle += autoSpeed + velocity;
+      wheelAngle += autoSpeed + velocity;
       velocity *= 0.97;
     }
-    layoutGalaxy();
-    requestAnimationFrame(animate);
+    layoutWheel();
+    requestAnimationFrame(animateWheel);
   }
 
-  galaxy.addEventListener('pointerdown', e => {
+  wheel.addEventListener('pointerdown', e => {
     isDragging = true;
     lastX = e.clientX;
     velocity = 0;
-    galaxy.setPointerCapture(e.pointerId);
+    wheel.setPointerCapture(e.pointerId);
   });
-
-  galaxy.addEventListener('pointermove', e => {
+  wheel.addEventListener('pointermove', e => {
     if (!isDragging) return;
     const dx = e.clientX - lastX;
-    angle += dx * 0.005;
-    velocity = dx * 0.003;
+    wheelAngle += dx * 0.004;
+    velocity = dx * 0.002;
     lastX = e.clientX;
   });
+  wheel.addEventListener('pointerup', () => { isDragging = false; });
+  wheel.addEventListener('pointercancel', () => { isDragging = false; });
 
-  galaxy.addEventListener('pointerup', () => { isDragging = false; });
-  galaxy.addEventListener('pointercancel', () => { isDragging = false; });
+  animateWheel();
 
-  animate();
+  // ===== SCROLL-DRIVEN GLASS =====
+  const hero = document.getElementById('hero');
+  const glassPanel = document.getElementById('glassPanel');
+  const glassContent = document.getElementById('glassContent');
+
+  function updateGlass() {
+    const rect = hero.getBoundingClientRect();
+    const scrolled = -rect.top;
+    const travel = hero.offsetHeight - window.innerHeight;
+    const progress = Math.max(0, Math.min(1, scrolled / travel));
+    const glassHeight = 50 + progress * 50;
+    glassPanel.style.height = glassHeight + '%';
+    glassContent.style.height = glassHeight + '%';
+  }
+
+  window.addEventListener('scroll', updateGlass, { passive: true });
+  updateGlass();
 
   // ===== CAROUSELS =====
   const genres = [
-    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3050 0%, #2a4a6a 40%, #0a1525 100%)' },
-    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #401010 0%, #601818 40%, #1a0808 100%)' },
-    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #4a3a18 0%, #6a5525 40%, #2a1a0a 100%)' },
-    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #501818 0%, #702828 40%, #280a0a 100%)' },
-    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #2a1a48 0%, #4a2a6a 40%, #150a28 100%)' },
-    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a3828 0%, #2a5838 40%, #0a1a10 100%)' },
-    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #282828 0%, #3a3a3a 40%, #0f0f0f 100%)' },
-    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #382818 0%, #584020 40%, #1a100a 100%)' },
-    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a2838 0%, #1a4858 40%, #051518 100%)' },
-    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #381828 0%, #582040 40%, #1a0a15 100%)' },
+    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3058, #2a5080, #0a1525)', anim: 'anim-grad' },
+    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #501010, #702020, #1a0808)', anim: 'anim-grad-2' },
+    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #504018, #706028, #2a1a0a)', anim: 'anim-grad-3' },
+    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #581818, #803030, #280a0a)', anim: 'anim-grad' },
+    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #301a50, #4a2a70, #150a28)', anim: 'anim-grad-2' },
+    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a4028, #2a6038, #0a1a10)', anim: 'anim-grad-3' },
+    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #303030, #484848, #0f0f0f)', anim: 'anim-grad' },
+    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #403018, #604828, #1a100a)', anim: 'anim-grad-2' },
+    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a3040, #1a5060, #051518)', anim: 'anim-grad-3' },
+    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #401828, #602848, #1a0a15)', anim: 'anim-grad' },
   ];
 
   const showsData = [
-    { name: 'Die Hard',     count: '12 Episodes',  grad: 'linear-gradient(150deg, #382828 0%, #583838 40%, #180e0e 100%)' },
-    { name: 'One Piece',    count: '48 Episodes',  grad: 'linear-gradient(150deg, #6a3808 0%, #8a5010 40%, #381a05 100%)' },
-    { name: 'Mr. Monster',  count: '12 Episodes',  grad: 'linear-gradient(150deg, #183818 0%, #285828 40%, #0a180a 100%)' },
-    { name: 'Neon City',    count: '24 Episodes',  grad: 'linear-gradient(150deg, #281848 0%, #482878 40%, #100a28 100%)' },
-    { name: 'Ghost Signal', count: '8 Episodes',   grad: 'linear-gradient(150deg, #182838 0%, #284858 40%, #0a1520 100%)' },
-    { name: 'Iron Will',    count: '16 Episodes',  grad: 'linear-gradient(150deg, #383818 0%, #585828 40%, #1a1a0a 100%)' },
-    { name: 'Deep Blue',    count: '20 Episodes',  grad: 'linear-gradient(150deg, #0a1838 0%, #1a3868 40%, #050a18 100%)' },
-    { name: 'Last Light',   count: '10 Episodes',  grad: 'linear-gradient(150deg, #482808 0%, #684010 40%, #281505 100%)' },
+    { name: 'Akira',          count: '4 Episodes',    grad: 'linear-gradient(150deg, #cc2200, #881100, #440800, #220400)', anim: 'anim-grad' },
+    { name: 'Die Hard',       count: '9 Episodes',    grad: 'linear-gradient(150deg, #384050, #506070, #1a2028)', anim: 'anim-grad-2' },
+    { name: 'Mr Money',       count: '44 Episodes',   grad: 'linear-gradient(150deg, #2a6030, #185020, #0a2810)', anim: 'anim-grad-3' },
+    { name: 'Little Robert',  count: '203 Episodes',  grad: 'linear-gradient(150deg, #5a3080, #3a1860, #1a0830)', anim: 'anim-grad' },
+    { name: 'Ghost Frame',    count: '68 Episodes',   grad: 'linear-gradient(150deg, #183848, #285868, #0a1820)', anim: 'anim-grad-2' },
+    { name: 'Typecast',       count: '1 Episode',     grad: 'linear-gradient(150deg, #585020, #403810, #201a08)', anim: 'anim-grad-3' },
   ];
 
   function buildCarousel(containerId, data) {
@@ -543,7 +750,7 @@ body {
       const el = document.createElement('div');
       el.className = 'carousel-item';
       el.innerHTML = `
-        <div class="carousel-circle" style="background: ${item.grad}">
+        <div class="carousel-circle ${item.anim}" style="background: ${item.grad}">
           <div class="circle-overlay">
             <span class="carousel-title">${item.name}</span>
             <span class="carousel-meta">${item.count}</span>
@@ -565,9 +772,9 @@ body {
       const dist = Math.abs(center - ic);
       const max = rect.width / 2;
       const ratio = Math.min(dist / max, 1);
-      const scale = 1 - ratio * 0.22;
-      const opacity = 1 - ratio * 0.55;
-      const brightness = 1 - ratio * 0.3;
+      const scale = 1 - ratio * 0.18;
+      const opacity = 1 - ratio * 0.35;
+      const brightness = 1 - ratio * 0.15;
       item.style.transform = `scale(${scale})`;
       item.style.opacity = opacity;
       item.style.filter = `brightness(${brightness})`;
@@ -582,6 +789,51 @@ body {
       track.scrollLeft = (track.scrollWidth - track.clientWidth) / 2;
     });
   }, 50);
+
+  // ===== ROULETTE =====
+  const allShows = [...showsData, ...genres.slice(0, 4).map(g => ({ name: g.name + ' Mix', count: 'Curated', grad: g.grad, anim: g.anim }))];
+  const rouletteWheel = document.getElementById('rouletteWheel');
+  const rouletteCount = allShows.length;
+  const rR = 120;
+
+  allShows.forEach((show, i) => {
+    const a = (i / rouletteCount) * Math.PI * 2 - Math.PI / 2;
+    const el = document.createElement('div');
+    el.className = 'roulette-item ' + show.anim;
+    el.style.background = show.grad;
+    el.style.left = (150 + Math.cos(a) * rR - 32) + 'px';
+    el.style.top = (150 + Math.sin(a) * rR - 32) + 'px';
+    rouletteWheel.appendChild(el);
+  });
+
+  let currentRotation = 0;
+  let isSpinning = false;
+  const spinBtn = document.getElementById('spinBtn');
+  const spinResult = document.getElementById('spinResult');
+  const spinResultTitle = document.getElementById('spinResultTitle');
+  const spinResultMeta = document.getElementById('spinResultMeta');
+
+  spinBtn.addEventListener('click', () => {
+    if (isSpinning) return;
+    isSpinning = true;
+    spinResult.classList.remove('visible');
+
+    const extraSpins = 5 + Math.random() * 3;
+    const targetIndex = Math.floor(Math.random() * rouletteCount);
+    const targetAngle = (targetIndex / rouletteCount) * 360;
+    const totalRotation = extraSpins * 360 + targetAngle;
+    currentRotation += totalRotation;
+
+    rouletteWheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+      const show = allShows[targetIndex];
+      spinResultTitle.textContent = show.name;
+      spinResultMeta.textContent = show.count;
+      spinResult.classList.add('visible');
+      isSpinning = false;
+    }, 4200);
+  });
 
 })();
 </script>

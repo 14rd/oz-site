@@ -37,8 +37,6 @@
   --sab: env(safe-area-inset-bottom, 0px);
 }
 
-html { scroll-behavior: smooth; }
-
 body {
   font-family: 'NeueHaasDisplay', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background: #000;
@@ -47,6 +45,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   min-height: 100dvh;
+  opacity: 0;
 }
 
 /* ===== HEADER ===== */
@@ -62,6 +61,8 @@ body {
   justify-content: space-between;
   gap: 14px;
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
 }
 
 .header > * { pointer-events: auto; }
@@ -72,6 +73,8 @@ body {
   letter-spacing: -0.04em;
   flex-shrink: 0;
   cursor: pointer;
+  text-decoration: none;
+  color: #fff;
 }
 
 .search-bar {
@@ -211,7 +214,6 @@ body {
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  position: relative;
   background: #111;
 }
 
@@ -263,12 +265,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 }
 
 .wheel {
   position: relative;
-  width: 340px;
-  height: 340px;
+  width: 370px;
+  height: 370px;
   touch-action: none;
 }
 
@@ -294,12 +297,11 @@ body {
   right: 0;
   bottom: 0;
   height: 50%;
-  background: rgba(0,0,0,0.55);
-  -webkit-backdrop-filter: blur(40px) saturate(1.2);
-  backdrop-filter: blur(40px) saturate(1.2);
+  background: rgba(0,0,0,0.42);
+  -webkit-backdrop-filter: blur(36px) saturate(1.2);
+  backdrop-filter: blur(36px) saturate(1.2);
   z-index: 10;
   will-change: height;
-  transition: height 0.05s linear;
 }
 
 .glass-content {
@@ -316,7 +318,7 @@ body {
   padding: 0 28px 40px;
   height: 50%;
   will-change: height;
-  transition: height 0.05s linear;
+  opacity: 0;
 }
 
 .glass-welcome {
@@ -324,11 +326,8 @@ body {
   font-size: 14px;
   font-weight: 400;
   color: rgba(255,255,255,0.6);
-  margin-bottom: 14px;
+  margin-bottom: 28px;
   letter-spacing: 0.02em;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .glass-headline {
@@ -337,9 +336,6 @@ body {
   line-height: 1.08;
   letter-spacing: -0.025em;
   margin-bottom: 12px;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 .glass-sub {
@@ -350,9 +346,6 @@ body {
   line-height: 1.5;
   max-width: 300px;
   margin-bottom: 28px;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
 }
 
 .cta-btn {
@@ -372,9 +365,6 @@ body {
   text-decoration: none;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.2s;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
 }
 
 .cta-btn:hover { opacity: 0.9; transform: scale(1.02); }
@@ -382,18 +372,17 @@ body {
 
 .cta-btn svg { width: 18px; height: 18px; }
 
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* ===== SECTION 2: BROWSE ===== */
 .browse-section {
   position: relative;
   background: #000;
-  padding: 36px 0 44px;
+  padding: 24px 0 32px;
+}
+
+.browse-section.anim-ready {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .browse-section.revealed {
@@ -418,11 +407,10 @@ body {
 .carousel-track {
   display: flex;
   gap: 14px;
-  padding: 0 calc(50vw - 105px);
+  padding: 0 calc(50vw - 95px);
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  cursor: grab;
   scroll-behavior: auto;
   scroll-snap-type: x mandatory;
 }
@@ -430,24 +418,22 @@ body {
 .carousel-item { scroll-snap-align: center; }
 
 .carousel-track::-webkit-scrollbar { display: none; }
-.carousel-track:active { cursor: grabbing; }
 
 .carousel-item {
   flex-shrink: 0;
-  width: 210px;
+  width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
   will-change: transform, opacity;
-  transition: transform 0.12s ease-out, opacity 0.12s ease-out, filter 0.12s ease-out;
   cursor: pointer;
   text-decoration: none;
   color: #fff;
 }
 
 .carousel-circle {
-  width: 210px;
-  height: 210px;
+  width: 190px;
+  height: 190px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
@@ -476,7 +462,7 @@ body {
 .carousel-item:hover .circle-overlay { background: rgba(0,0,0,0.15); }
 
 .carousel-title {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
@@ -501,9 +487,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.roulette-section.anim-ready {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .roulette-section.revealed {
@@ -524,7 +513,7 @@ body {
 .roulette-container {
   position: relative;
   width: 340px;
-  height: 300px;
+  height: 260px;
 }
 
 .roulette-galaxy {
@@ -553,54 +542,63 @@ body {
   box-shadow: 0 0 0 2px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.15);
 }
 
-.roulette-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 20;
+/* Roulette controls below the wheel */
+.roulette-controls {
+  margin-top: 36px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
+  min-height: 100px;
+}
+
+.spin-btn-wrap {
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spin-btn-wrap.hidden {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
 }
 
 .spin-btn {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(0,0,0,0.5);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 44px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 100px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: border-color 0.3s, transform 0.3s;
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-.spin-btn:hover {
-  border-color: rgba(255,255,255,0.45);
-  transform: scale(1.06);
-}
-
-.spin-btn:active { transform: scale(0.96); }
+.spin-btn:hover { opacity: 0.9; transform: scale(1.02); }
+.spin-btn:active { transform: scale(0.98); }
 
 .spin-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-top: 32px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  position: absolute;
 }
 
 .spin-result.visible {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+  position: relative;
 }
 
 .spin-result-title {
@@ -616,14 +614,19 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.spin-result-actions {
+  display: flex;
+  gap: 10px;
 }
 
 .spin-result-cta {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 18px;
-  padding: 12px 28px;
+  padding: 14px 28px;
   background: #fff;
   color: #000;
   border: none;
@@ -639,24 +642,30 @@ body {
 }
 
 .spin-result-cta:hover { opacity: 0.9; transform: scale(1.02); }
-.spin-result-cta:active { opacity: 0.8; }
+.spin-result-cta:active { transform: scale(0.98); }
 
 .spin-result-cta svg { width: 14px; height: 14px; }
 
-.spin-again {
-  display: block;
-  margin-top: 12px;
-  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.spin-again-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  font-family: inherit;
   font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  background: none;
-  border: none;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
-  letter-spacing: 0.06em;
-  transition: color 0.2s;
+  transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
 }
 
-.spin-again:hover { color: rgba(255,255,255,0.7); }
+.spin-again-btn:hover { border-color: rgba(255,255,255,0.4); transform: scale(1.02); }
+.spin-again-btn:active { transform: scale(0.98); }
 
 /* ===== FOOTER CTA ===== */
 .footer-cta {
@@ -667,9 +676,12 @@ body {
   text-align: center;
   padding: 80px 32px 60px;
   min-height: 55dvh;
+}
+
+.footer-cta.anim-ready {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .footer-cta.revealed {
@@ -684,12 +696,6 @@ body {
   letter-spacing: -0.02em;
   margin-bottom: 36px;
   max-width: 320px;
-}
-
-.footer-cta .cta-btn {
-  opacity: 1;
-  transform: none;
-  animation: none;
 }
 
 .footer {
@@ -730,8 +736,8 @@ body {
 <body>
 
 <!-- HEADER -->
-<header class="header">
-  <div class="header-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">OZ</div>
+<header class="header" id="header">
+  <a href="index.html" class="header-logo">OZ</a>
   <div class="search-bar" id="searchTrigger">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"></circle>
@@ -755,7 +761,7 @@ body {
 <!-- SECTION 1: HERO -->
 <section class="hero" id="hero">
   <div class="hero-sticky">
-    <div class="wheel-container">
+    <div class="wheel-container" id="wheelContainer">
       <div class="wheel" id="wheel"></div>
     </div>
     <div class="glass-panel" id="glassPanel"></div>
@@ -791,20 +797,24 @@ body {
   <p class="roulette-label">Not sure what to watch?</p>
   <div class="roulette-container">
     <div class="roulette-galaxy" id="rouletteGalaxy"></div>
-    <div class="roulette-center">
+  </div>
+  <div class="roulette-controls">
+    <div class="spin-btn-wrap" id="spinBtnWrap">
       <button class="spin-btn" id="spinBtn">Spin</button>
     </div>
-  </div>
-  <div class="spin-result" id="spinResult">
-    <div class="spin-result-title" id="spinResultTitle"></div>
-    <div class="spin-result-meta" id="spinResultMeta"></div>
-    <a href="watch.html" class="spin-result-cta" id="spinResultCta">
-      Watch Now
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3"></polygon>
-      </svg>
-    </a>
-    <button class="spin-again" id="spinAgain">Spin Again</button>
+    <div class="spin-result" id="spinResult">
+      <div class="spin-result-title" id="spinResultTitle"></div>
+      <div class="spin-result-meta" id="spinResultMeta"></div>
+      <div class="spin-result-actions">
+        <a href="watch.html" class="spin-result-cta" id="spinResultCta">
+          Start Watching
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </a>
+        <button class="spin-again-btn" id="spinAgain">Spin Again</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -860,15 +870,69 @@ body {
     v.autoplay = true;
     v.setAttribute('playsinline', '');
     v.setAttribute('webkit-playsinline', '');
-    v.preload = 'auto';
+    v.setAttribute('muted', '');
+    v.preload = 'metadata';
+    v.addEventListener('loadeddata', () => { v.play().catch(() => {}); });
     return v;
   }
+
+  // Force-play all videos on first user interaction (mobile fix)
+  function forcePlayAll() {
+    document.querySelectorAll('video').forEach(v => { v.play().catch(() => {}); });
+    document.removeEventListener('touchstart', forcePlayAll);
+    document.removeEventListener('click', forcePlayAll);
+  }
+  document.addEventListener('touchstart', forcePlayAll, { once: true, passive: true });
+  document.addEventListener('click', forcePlayAll, { once: true });
+
+  // ===== WIZARD OF OZ — STAGGERED MAGICAL LOAD =====
+  function orchestrateEntrance() {
+    const body = document.body;
+    const header = document.getElementById('header');
+    const wheelContainer = document.getElementById('wheelContainer');
+    const glassContent = document.getElementById('glassContent');
+
+    // Body fades in from black
+    body.style.transition = 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1)';
+    body.style.opacity = '1';
+
+    // Header drifts down
+    setTimeout(() => {
+      header.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      header.style.opacity = '1';
+      header.style.transform = 'translateY(0)';
+    }, 400);
+
+    // Wheel circles bloom outward
+    setTimeout(() => {
+      wheelContainer.style.transition = 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+      wheelContainer.style.opacity = '1';
+    }, 600);
+
+    // Glass content fades up with staggered children
+    setTimeout(() => {
+      glassContent.style.transition = 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+      glassContent.style.opacity = '1';
+      const children = glassContent.children;
+      for (let i = 0; i < children.length; i++) {
+        children[i].style.opacity = '0';
+        children[i].style.transform = 'translateY(14px)';
+        children[i].style.transition = `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.15}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.15}s`;
+        setTimeout(() => {
+          children[i].style.opacity = '1';
+          children[i].style.transform = 'translateY(0)';
+        }, 50);
+      }
+    }, 1000);
+  }
+
+  requestAnimationFrame(() => { requestAnimationFrame(orchestrateEntrance); });
 
   // ===== HERO WHEEL =====
   const wheel = document.getElementById('wheel');
   const ORB_COUNT = 18;
-  const ORB_SIZE = 50;
-  const W = 340, CX = W / 2, CY = W / 2, RADIUS = 148;
+  const ORB_SIZE = 46;
+  const W = 370, CX = W / 2, CY = W / 2, RADIUS = 162;
 
   const orbEls = [];
   for (let i = 0; i < ORB_COUNT; i++) {
@@ -881,39 +945,39 @@ body {
     orbEls.push(el);
   }
 
-  let wAngle = 0, wAuto = 0.001, wDrag = false, wLastX = 0, wVel = 0, wLastTime = 0;
+  let wAngle = 0, wAuto = 0.0008, wDrag = false, wLastX = 0, wVel = 0, wLastTime = 0;
 
   function layoutWheel() {
     for (let i = 0; i < ORB_COUNT; i++) {
       const a = wAngle + (i / ORB_COUNT) * Math.PI * 2;
       const x = CX + Math.cos(a) * RADIUS - ORB_SIZE / 2;
       const y = CY + Math.sin(a) * RADIUS - ORB_SIZE / 2;
-      orbEls[i].style.left = x + 'px';
-      orbEls[i].style.top = y + 'px';
+      orbEls[i].style.transform = `translate(${x}px, ${y}px)`;
     }
   }
 
+  let wheelRAF;
   function animWheel() {
     if (!wDrag) {
       wAngle += wAuto + wVel;
-      wVel *= 0.96;
-      if (Math.abs(wVel) < 0.00005) wVel = 0;
+      wVel *= 0.95;
+      if (Math.abs(wVel) < 0.00003) wVel = 0;
     }
     layoutWheel();
-    requestAnimationFrame(animWheel);
+    wheelRAF = requestAnimationFrame(animWheel);
   }
 
   wheel.addEventListener('pointerdown', e => {
-    wDrag = true; wLastX = e.clientX; wVel = 0; wLastTime = Date.now();
+    wDrag = true; wLastX = e.clientX; wVel = 0; wLastTime = performance.now();
     wheel.setPointerCapture(e.pointerId);
   });
   wheel.addEventListener('pointermove', e => {
     if (!wDrag) return;
     const dx = e.clientX - wLastX;
-    const now = Date.now();
+    const now = performance.now();
     const dt = Math.max(now - wLastTime, 1);
     wAngle += dx * 0.004;
-    wVel = (dx * 0.003) / (dt / 16);
+    wVel = (dx * 0.002) / (dt / 16);
     wLastX = e.clientX;
     wLastTime = now;
   });
@@ -922,38 +986,47 @@ body {
 
   animWheel();
 
-  // ===== SCROLL-DRIVEN GLASS =====
+  // ===== SCROLL-DRIVEN GLASS (smooth transition at boundary) =====
   const hero = document.getElementById('hero');
   const glassPanel = document.getElementById('glassPanel');
   const glassContent = document.getElementById('glassContent');
-  let lastGlassH = 50;
+  let targetGlassH = 50, currentGlassH = 50;
 
-  function updateGlass() {
+  function updateGlassTarget() {
     const rect = hero.getBoundingClientRect();
     const scrolled = -rect.top;
     const travel = hero.offsetHeight - window.innerHeight;
     const progress = Math.max(0, Math.min(1, scrolled / travel));
-    const h = 50 + progress * 50;
-    if (Math.abs(h - lastGlassH) > 0.1) {
-      lastGlassH = h;
-      glassPanel.style.height = h + '%';
-      glassContent.style.height = h + '%';
-    }
+    targetGlassH = 50 + progress * 50;
   }
 
-  window.addEventListener('scroll', updateGlass, { passive: true });
-  updateGlass();
+  function animGlass() {
+    const diff = targetGlassH - currentGlassH;
+    if (Math.abs(diff) > 0.05) {
+      currentGlassH += diff * 0.15;
+      glassPanel.style.height = currentGlassH + '%';
+      glassContent.style.height = currentGlassH + '%';
+    }
+    requestAnimationFrame(animGlass);
+  }
 
-  // ===== SCROLL REVEAL =====
+  window.addEventListener('scroll', updateGlassTarget, { passive: true });
+  updateGlassTarget();
+  animGlass();
+
+  // ===== SCROLL REVEAL (re-triggers on scroll back up) =====
   const revealEls = document.querySelectorAll('.browse-section, .roulette-section, .footer-cta');
+  revealEls.forEach(el => el.classList.add('anim-ready'));
+
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
-        revealObs.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('revealed');
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
   revealEls.forEach(el => revealObs.observe(el));
 
   // ===== DATA =====
@@ -1003,7 +1076,7 @@ body {
       });
     }
 
-    const itemW = 210 + 14;
+    const itemW = 190 + 14;
     const oneSetW = data.length * itemW;
     track.scrollLeft = oneSetW * 2;
 
@@ -1013,9 +1086,16 @@ body {
       else if (sl > oneSetW * 3) track.scrollLeft -= oneSetW;
     }
 
+    let ticking = false;
     track.addEventListener('scroll', () => {
-      loopCheck();
-      applySpatial(track);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          loopCheck();
+          applySpatial(track);
+          ticking = false;
+        });
+        ticking = true;
+      }
     }, { passive: true });
 
     applySpatial(track);
@@ -1028,11 +1108,11 @@ body {
       const ir = item.getBoundingClientRect();
       const ic = ir.left + ir.width / 2;
       const dist = Math.abs(center - ic);
-      const max = rect.width * 0.55;
+      const max = rect.width * 0.5;
       const ratio = Math.min(dist / max, 1);
-      const scale = 1 - ratio * 0.15;
-      const opacity = 1 - ratio * 0.28;
-      const brightness = 1 - ratio * 0.1;
+      const scale = 1 - ratio * 0.22;
+      const opacity = 1 - ratio * 0.45;
+      const brightness = 1 - ratio * 0.25;
       item.style.transform = `scale(${scale})`;
       item.style.opacity = opacity;
       item.style.filter = `brightness(${brightness})`;
@@ -1053,11 +1133,11 @@ body {
   ];
 
   const rCount = allShows.length;
-  const rCX = 170, rCY = 150, rRX = 145, rRY = 85;
+  const rCX = 170, rCY = 130, rRX = 145, rRY = 85;
   const rOrbSize = 58;
   const rOrbs = [];
 
-  allShows.forEach((show) => {
+  allShows.forEach(() => {
     const el = document.createElement('div');
     el.className = 'roulette-orb';
     el.style.width = rOrbSize + 'px';
@@ -1089,9 +1169,7 @@ body {
       const depth = (Math.sin(a) + 1) / 2;
       const scale = 0.6 + depth * 0.4;
       const z = Math.floor(depth * 10);
-      rOrbs[i].style.left = x + 'px';
-      rOrbs[i].style.top = y + 'px';
-      rOrbs[i].style.transform = `scale(${scale})`;
+      rOrbs[i].style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
       rOrbs[i].style.zIndex = z;
       rOrbs[i].style.opacity = (0.35 + depth * 0.65).toFixed(2);
 
@@ -1119,27 +1197,31 @@ body {
     requestAnimationFrame(animRoulette);
   }
 
+  const spinBtnWrap = document.getElementById('spinBtnWrap');
+  const spinResult = document.getElementById('spinResult');
+
   function showSpinResult() {
     const closest = getClosestOrb();
     const show = allShows[closest];
     document.getElementById('spinResultTitle').textContent = show.name;
     document.getElementById('spinResultMeta').textContent = show.count;
     document.getElementById('spinResultCta').href = 'watch.html?q=' + encodeURIComponent(show.name);
-    document.getElementById('spinResult').classList.add('visible');
+    spinResult.classList.add('visible');
   }
 
-  document.getElementById('spinBtn').addEventListener('click', () => {
+  function doSpin() {
     if (rSpinning) return;
     rSpinning = true;
     rSpinVel = 0.15 + Math.random() * 0.1;
-    document.getElementById('spinResult').classList.remove('visible');
-  });
+    spinBtnWrap.classList.add('hidden');
+    spinResult.classList.remove('visible');
+  }
+
+  document.getElementById('spinBtn').addEventListener('click', doSpin);
 
   document.getElementById('spinAgain').addEventListener('click', () => {
-    if (rSpinning) return;
-    rSpinning = true;
-    rSpinVel = 0.15 + Math.random() * 0.1;
-    document.getElementById('spinResult').classList.remove('visible');
+    spinResult.classList.remove('visible');
+    setTimeout(doSpin, 200);
   });
 
   animRoulette();

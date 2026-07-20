@@ -74,7 +74,31 @@ body {
   color: #fff;
 }
 
-.back-btn {
+.search-bar {
+  flex: 1;
+  max-width: 280px;
+  height: 38px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  background: rgba(0,0,0,0.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  backdrop-filter: blur(24px) saturate(1.3);
+}
+
+.search-bar:hover { border-color: rgba(255,255,255,0.35); }
+
+.search-bar svg {
+  width: 15px;
+  height: 15px;
+  stroke: rgba(255,255,255,0.4);
+}
+
+.profile-btn {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -82,17 +106,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
   flex-shrink: 0;
   cursor: pointer;
+  transition: border-color 0.3s;
   background: rgba(0,0,0,0.25);
   -webkit-backdrop-filter: blur(24px) saturate(1.3);
   backdrop-filter: blur(24px) saturate(1.3);
-  transition: border-color 0.3s;
   text-decoration: none;
+  color: #fff;
 }
 
-.back-btn:hover { border-color: rgba(255,255,255,0.35); }
-.back-btn svg { width: 16px; height: 16px; stroke: rgba(255,255,255,0.6); }
+.profile-btn:hover { border-color: rgba(255,255,255,0.35); }
 
 /* ===== FEATURED HERO ===== */
 .watch-hero {
@@ -199,7 +225,7 @@ body {
 /* ===== ROWS ===== */
 .watch-rows {
   position: relative;
-  padding: 0 0 calc(40px + var(--sab));
+  padding: 0 0 20px;
 }
 
 .watch-row {
@@ -290,6 +316,41 @@ body {
   margin-top: 2px;
 }
 
+/* ===== FOOTER ===== */
+.footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 24px calc(28px + var(--sab));
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.footer-links a {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #fff; }
+
 @keyframes fadeIn {
   to { opacity: 1; }
 }
@@ -299,16 +360,26 @@ body {
 
 <header class="header">
   <a href="index.html" class="header-logo">OZ</a>
-  <a href="index.html" class="back-btn">
+  <div class="search-bar">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"></polyline>
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
-  </a>
+  </div>
+  <a href="profile.html" class="profile-btn">E</a>
 </header>
 
 <section class="watch-hero" id="watchHero"></section>
 
 <div class="watch-rows" id="watchRows"></div>
+
+<footer class="footer">
+  <div class="footer-logo">OZ</div>
+  <div class="footer-links">
+    <a href="watch.html">Watch</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
 
 <script>
 (function() {
@@ -340,9 +411,20 @@ body {
     v.playsInline = true;
     v.autoplay = true;
     v.setAttribute('playsinline', '');
-    v.preload = 'auto';
+    v.setAttribute('webkit-playsinline', '');
+    v.setAttribute('muted', '');
+    v.preload = 'metadata';
+    v.addEventListener('loadeddata', () => { v.play().catch(() => {}); });
     return v;
   }
+
+  function forcePlayAll() {
+    document.querySelectorAll('video').forEach(v => { v.play().catch(() => {}); });
+    document.removeEventListener('touchstart', forcePlayAll);
+    document.removeEventListener('click', forcePlayAll);
+  }
+  document.addEventListener('touchstart', forcePlayAll, { once: true, passive: true });
+  document.addEventListener('click', forcePlayAll, { once: true });
 
   const showsData = [
     { name: 'Akira',         ep: '4 Episodes',   desc: 'Neo-Tokyo burns. The power awakens.' },
@@ -355,7 +437,6 @@ body {
 
   const genres = ['Anime', 'Horror', 'Action', 'Comedy', 'Music', 'Wildlife', 'Documentary', 'Experimental', 'Sci-Fi', 'Romance'];
 
-  // Hero
   const heroSection = document.getElementById('watchHero');
   const params = new URLSearchParams(window.location.search);
   const q = params.get('q');
@@ -390,7 +471,6 @@ body {
   `;
   heroSection.appendChild(content);
 
-  // Rows
   const rows = document.getElementById('watchRows');
 
   function makeRow(title, items) {
@@ -419,7 +499,7 @@ body {
       thumb.appendChild(overlay);
 
       card.appendChild(thumb);
-      card.innerHTML += `<div class="row-card-title">${item.name}</div><div class="row-card-meta">${item.ep || item.count || ''}</div>`;
+      card.innerHTML += `<div class="row-card-title">${item.name}</div><div class="row-card-meta">${item.ep || ''}</div>`;
       track.appendChild(card);
     });
 
@@ -429,14 +509,13 @@ body {
 
   makeRow('Continue Watching', showsData.slice(0, 4));
   makeRow('Trending Now', [...showsData].reverse());
-  makeRow('New Releases', showsData.sort(() => Math.random() - 0.5));
+  makeRow('New Releases', [...showsData].sort(() => Math.random() - 0.5));
 
   genres.slice(0, 5).forEach(genre => {
-    const genreShows = showsData.map(s => ({...s})).sort(() => Math.random() - 0.5).slice(0, 4);
+    const genreShows = [...showsData].sort(() => Math.random() - 0.5).slice(0, 4);
     makeRow(genre, genreShows);
   });
 
-  // Reveal rows
   const rowEls = document.querySelectorAll('.watch-row');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

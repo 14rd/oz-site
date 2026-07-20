@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>OZ</title>
+<style>
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: local('Neue Haas Grotesk Display Pro'), local('NeueHaasDisplay-Roman'), local('Helvetica Neue');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: local('Neue Haas Grotesk Display Pro Medium'), local('NeueHaasDisplay-Medium'), local('Helvetica Neue Medium');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: local('Neue Haas Grotesk Display Pro Bold'), local('NeueHaasDisplay-Bold'), local('Helvetica Neue Bold');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NeueHaasText';
+  src: local('Neue Haas Grotesk Text Pro'), local('NeueHaasText-Roman'), local('Helvetica Neue');
+  font-weight: 400;
+  font-style: normal;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'NeueHaasDisplay', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* ===== HEADER ===== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: calc(14px + var(--sat)) 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+}
+
+.header-logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 280px;
+  height: 38px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.search-bar:hover { border-color: rgba(255,255,255,0.45); }
+
+.search-bar svg {
+  width: 15px;
+  height: 15px;
+  stroke: rgba(255,255,255,0.45);
+}
+
+.profile-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.profile-btn:hover { border-color: rgba(255,255,255,0.45); }
+
+/* ===== SECTION 1: HERO ===== */
+.hero {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.galaxy-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 18vh;
+}
+
+.galaxy {
+  position: relative;
+  width: 360px;
+  height: 300px;
+  touch-action: none;
+}
+
+.galaxy-item {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #111;
+  will-change: transform;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.galaxy-item:hover { filter: brightness(1.15); }
+
+.glass-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  background: rgba(0,0,0,0.25);
+  -webkit-backdrop-filter: blur(48px) saturate(1.2);
+  backdrop-filter: blur(48px) saturate(1.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px 20px;
+  text-align: center;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%);
+}
+
+.glass-welcome {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.glass-headline {
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+.glass-sub {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+  max-width: 300px;
+  margin-bottom: 28px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 36px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.cta-btn:hover { opacity: 0.9; }
+.cta-btn:active { opacity: 0.8; }
+
+.cta-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== SECTION 2: BROWSE ===== */
+.browse-section {
+  position: relative;
+  background: #000;
+  padding: 48px 0 56px;
+}
+
+.section-label {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 18px;
+  padding: 0 calc(50vw - 110px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:active { cursor: grabbing; }
+
+.carousel-item {
+  flex-shrink: 0;
+  width: 220px;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform, opacity;
+}
+
+.carousel-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #111;
+  position: relative;
+}
+
+.carousel-circle .circle-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.25);
+  text-align: center;
+  padding: 16px;
+}
+
+.carousel-title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.carousel-meta {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.browse-section + .browse-section {
+  padding-top: 8px;
+}
+
+/* ===== SECTION 3: FOOTER CTA ===== */
+.footer-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 32px 80px;
+  min-height: 65dvh;
+}
+
+.footer-headline {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-bottom: 36px;
+  max-width: 320px;
+}
+
+.footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 24px calc(28px + var(--sab));
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.footer-links a {
+  font-family: 'NeueHaasText', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">OZ</div>
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </div>
+  <div class="profile-btn">E</div>
+</header>
+
+<!-- SECTION 1: HERO -->
+<section class="hero" id="hero">
+  <div class="galaxy-container">
+    <div class="galaxy" id="galaxy"></div>
+  </div>
+  <div class="glass-overlay">
+    <p class="glass-welcome">Welcome to OZ.</p>
+    <h1 class="glass-headline">Stories Live Here.</h1>
+    <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
+    <a href="#browse" class="cta-btn">
+      Start Watching
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 2: GENRES -->
+<section class="browse-section" id="browse">
+  <p class="section-label">Genres:</p>
+  <div class="carousel-track" id="genreCarousel"></div>
+</section>
+
+<!-- SECTION 2B: MORE TO EXPLORE -->
+<section class="browse-section">
+  <p class="section-label">More to explore:</p>
+  <div class="carousel-track" id="showCarousel"></div>
+</section>
+
+<!-- SECTION 3: FOOTER CTA -->
+<section class="footer-cta">
+  <h2 class="footer-headline">The platform disappears.<br>The story remains.</h2>
+  <a href="#hero" class="cta-btn">
+    Start Watching
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+      <polyline points="12 5 19 12 12 19"></polyline>
+    </svg>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">OZ</div>
+  <div class="footer-links">
+    <a href="#">Watch</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+<script>
+(function() {
+  if (sessionStorage.getItem('oz_auth') !== '1') {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // ===== GALAXY =====
+  const galaxy = document.getElementById('galaxy');
+  const shows = [
+    { grad: 'linear-gradient(135deg, #e85d3a 0%, #c44 40%, #2a1a1a 100%)', size: 80 },
+    { grad: 'linear-gradient(145deg, #f0c090 0%, #d4956a 50%, #3a2010 100%)', size: 72 },
+    { grad: 'radial-gradient(circle at 45% 45%, #fff 8%, #bbb 25%, #555 55%, #222 100%)', size: 78 },
+    { grad: 'linear-gradient(135deg, #e8c860 0%, #c9a84c 50%, #3a2800 100%)', size: 70 },
+    { grad: 'linear-gradient(150deg, #90ccee 0%, #5588aa 50%, #1a2a3a 100%)', size: 82 },
+    { grad: 'linear-gradient(135deg, #ff6644 0%, #cc4433 50%, #2a0808 100%)', size: 68 },
+    { grad: 'linear-gradient(135deg, #88cc88 0%, #5a7a5a 50%, #1a2a1a 100%)', size: 74 },
+    { grad: 'linear-gradient(135deg, #bb88ff 0%, #7a6a9a 50%, #1a1a2a 100%)', size: 70 },
+    { grad: 'linear-gradient(135deg, #88bbee 0%, #446688 50%, #0a1a2a 100%)', size: 66 },
+    { grad: 'linear-gradient(135deg, #55cc88 0%, #3a7a5a 50%, #0a2a1a 100%)', size: 62 },
+  ];
+
+  const items = [];
+  const cx = 180, cy = 150;
+  const rx = 155, ry = 85;
+
+  shows.forEach((show, i) => {
+    const el = document.createElement('div');
+    el.className = 'galaxy-item';
+    el.style.width = show.size + 'px';
+    el.style.height = show.size + 'px';
+    el.style.background = show.grad;
+    galaxy.appendChild(el);
+    items.push({ el, size: show.size });
+  });
+
+  let angle = 0;
+  let autoSpeed = 0.0015;
+  let isDragging = false;
+  let lastX = 0;
+  let velocity = 0;
+
+  function layoutGalaxy() {
+    const n = items.length;
+    items.forEach((item, i) => {
+      const a = angle + (i / n) * Math.PI * 2;
+      const x = cx + Math.cos(a) * rx - item.size / 2;
+      const y = cy + Math.sin(a) * ry - item.size / 2;
+      const depth = (Math.sin(a) + 1) / 2;
+      const scale = 0.65 + depth * 0.35;
+      const z = Math.floor(depth * 10);
+      item.el.style.left = x + 'px';
+      item.el.style.top = y + 'px';
+      item.el.style.transform = `scale(${scale})`;
+      item.el.style.zIndex = z;
+      item.el.style.opacity = 0.4 + depth * 0.6;
+    });
+  }
+
+  function animate() {
+    if (!isDragging) {
+      angle += autoSpeed + velocity;
+      velocity *= 0.97;
+    }
+    layoutGalaxy();
+    requestAnimationFrame(animate);
+  }
+
+  galaxy.addEventListener('pointerdown', e => {
+    isDragging = true;
+    lastX = e.clientX;
+    velocity = 0;
+    galaxy.setPointerCapture(e.pointerId);
+  });
+
+  galaxy.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastX;
+    angle += dx * 0.005;
+    velocity = dx * 0.003;
+    lastX = e.clientX;
+  });
+
+  galaxy.addEventListener('pointerup', () => { isDragging = false; });
+  galaxy.addEventListener('pointercancel', () => { isDragging = false; });
+
+  animate();
+
+  // ===== CAROUSELS =====
+  const genres = [
+    { name: 'Anime',        count: '145 Series',   grad: 'linear-gradient(150deg, #1a3050 0%, #2a4a6a 40%, #0a1525 100%)' },
+    { name: 'Horror',       count: '89 Series',    grad: 'linear-gradient(150deg, #401010 0%, #601818 40%, #1a0808 100%)' },
+    { name: 'Action',       count: '120 Series',   grad: 'linear-gradient(150deg, #4a3a18 0%, #6a5525 40%, #2a1a0a 100%)' },
+    { name: 'Comedy',       count: '95 Series',    grad: 'linear-gradient(150deg, #501818 0%, #702828 40%, #280a0a 100%)' },
+    { name: 'Music',        count: '67 Series',    grad: 'linear-gradient(150deg, #2a1a48 0%, #4a2a6a 40%, #150a28 100%)' },
+    { name: 'Wildlife',     count: '42 Series',    grad: 'linear-gradient(150deg, #1a3828 0%, #2a5838 40%, #0a1a10 100%)' },
+    { name: 'Documentary',  count: '78 Series',    grad: 'linear-gradient(150deg, #282828 0%, #3a3a3a 40%, #0f0f0f 100%)' },
+    { name: 'Experimental', count: '31 Series',    grad: 'linear-gradient(150deg, #382818 0%, #584020 40%, #1a100a 100%)' },
+    { name: 'Sci-Fi',       count: '54 Series',    grad: 'linear-gradient(150deg, #0a2838 0%, #1a4858 40%, #051518 100%)' },
+    { name: 'Romance',      count: '63 Series',    grad: 'linear-gradient(150deg, #381828 0%, #582040 40%, #1a0a15 100%)' },
+  ];
+
+  const showsData = [
+    { name: 'Die Hard',     count: '12 Episodes',  grad: 'linear-gradient(150deg, #382828 0%, #583838 40%, #180e0e 100%)' },
+    { name: 'One Piece',    count: '48 Episodes',  grad: 'linear-gradient(150deg, #6a3808 0%, #8a5010 40%, #381a05 100%)' },
+    { name: 'Mr. Monster',  count: '12 Episodes',  grad: 'linear-gradient(150deg, #183818 0%, #285828 40%, #0a180a 100%)' },
+    { name: 'Neon City',    count: '24 Episodes',  grad: 'linear-gradient(150deg, #281848 0%, #482878 40%, #100a28 100%)' },
+    { name: 'Ghost Signal', count: '8 Episodes',   grad: 'linear-gradient(150deg, #182838 0%, #284858 40%, #0a1520 100%)' },
+    { name: 'Iron Will',    count: '16 Episodes',  grad: 'linear-gradient(150deg, #383818 0%, #585828 40%, #1a1a0a 100%)' },
+    { name: 'Deep Blue',    count: '20 Episodes',  grad: 'linear-gradient(150deg, #0a1838 0%, #1a3868 40%, #050a18 100%)' },
+    { name: 'Last Light',   count: '10 Episodes',  grad: 'linear-gradient(150deg, #482808 0%, #684010 40%, #281505 100%)' },
+  ];
+
+  function buildCarousel(containerId, data) {
+    const track = document.getElementById(containerId);
+    data.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'carousel-item';
+      el.innerHTML = `
+        <div class="carousel-circle" style="background: ${item.grad}">
+          <div class="circle-overlay">
+            <span class="carousel-title">${item.name}</span>
+            <span class="carousel-meta">${item.count}</span>
+          </div>
+        </div>
+      `;
+      track.appendChild(el);
+    });
+    applySpatialEffect(track);
+    track.addEventListener('scroll', () => applySpatialEffect(track), { passive: true });
+  }
+
+  function applySpatialEffect(track) {
+    const rect = track.getBoundingClientRect();
+    const center = rect.left + rect.width / 2;
+    track.querySelectorAll('.carousel-item').forEach(item => {
+      const ir = item.getBoundingClientRect();
+      const ic = ir.left + ir.width / 2;
+      const dist = Math.abs(center - ic);
+      const max = rect.width / 2;
+      const ratio = Math.min(dist / max, 1);
+      const scale = 1 - ratio * 0.22;
+      const opacity = 1 - ratio * 0.55;
+      const brightness = 1 - ratio * 0.3;
+      item.style.transform = `scale(${scale})`;
+      item.style.opacity = opacity;
+      item.style.filter = `brightness(${brightness})`;
+    });
+  }
+
+  buildCarousel('genreCarousel', genres);
+  buildCarousel('showCarousel', showsData);
+
+  setTimeout(() => {
+    document.querySelectorAll('.carousel-track').forEach(track => {
+      track.scrollLeft = (track.scrollWidth - track.clientWidth) / 2;
+    });
+  }, 50);
+
+})();
+</script>
+</body>
+</html>

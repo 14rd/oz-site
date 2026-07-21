@@ -83,8 +83,9 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .roulette-section{position:relative;background:#000;padding:120px 0 60px;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(60px) scale(0.97);transition:opacity 1.6s cubic-bezier(0.16,1,0.3,1),transform 1.6s cubic-bezier(0.16,1,0.3,1)}
 .roulette-section.revealed{opacity:1;transform:translateY(0) scale(1)}
 .roulette-container{position:relative;width:340px;height:260px}
-.roulette-galaxy{position:relative;width:100%;height:100%;touch-action:none}
-.roulette-orb{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;background:#0a0a0a;transition:box-shadow 0.5s ease,opacity 0.6s ease,filter 0.6s ease}
+.roulette-galaxy{position:relative;width:100%;height:100%;touch-action:pan-y}
+.roulette-galaxy.draggable{touch-action:none}
+.roulette-orb{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;background:#0a0a0a;transition:box-shadow 0.5s ease,opacity 0.6s ease,filter 0.6s ease;pointer-events:none}
 .roulette-orb video{width:100%;height:100%;object-fit:cover}
 .roulette-orb.highlighted{box-shadow:0 0 0 1px rgba(255,255,255,0.7),0 0 20px rgba(255,255,255,0.1)}
 
@@ -278,6 +279,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     setTimeout(function(){
       heroOverlay.classList.add('entered');
     },900);
+    heroOverlay._entranceDone=true;
   }
   requestAnimationFrame(function(){requestAnimationFrame(entrance)});
 
@@ -337,6 +339,14 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     });
   },{threshold:0.05,rootMargin:'0px 0px -40px 0px'});
   revealEls.forEach(function(el){revealObs.observe(el)});
+
+  // Hero overlay re-trigger on scroll (after initial entrance)
+  var heroObs=new IntersectionObserver(function(entries){
+    if(!heroOverlay._entranceDone)return;
+    if(entries[0].isIntersecting)heroOverlay.classList.add('entered');
+    else heroOverlay.classList.remove('entered');
+  },{threshold:0.1});
+  heroObs.observe(heroOverlay);
 
   // === DATA ===
   var genres=[
@@ -519,7 +529,13 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     rRafId=requestAnimationFrame(animRoulette);
   }
 
-  // Touch/drag on roulette
+  // Touch/drag on roulette — only when idle (not spinning, not stopped)
+  function updateDraggable(){
+    if(!rSpinning&&!rStopped)rGalaxy.classList.add('draggable');
+    else rGalaxy.classList.remove('draggable');
+  }
+  updateDraggable();
+
   rGalaxy.addEventListener('pointerdown',function(e){
     if(rSpinning||rStopped)return;
     rDrag=true;rLastX=e.clientX;rDragVel=0;rLastT=performance.now();
@@ -548,6 +564,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     document.getElementById('spinResultMeta').textContent=item.count;
     document.getElementById('spinResultCta').href='watch.html?q='+encodeURIComponent(item.name);
     spinResult.classList.add('visible');
+    updateDraggable();
   }
 
   function doSpin(){
@@ -555,6 +572,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     rStopped=false;
     rSelectedIdx=-1;
     rSpinning=true;
+    updateDraggable();
     rSpinVel=0.15+Math.random()*0.1;
     spinBtnWrap.classList.add('hidden');
     spinResult.classList.remove('visible');

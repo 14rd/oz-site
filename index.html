@@ -41,22 +41,22 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .search-result-type{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase}
 
 /* Hero */
-.hero{position:relative;height:85dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero{position:relative;height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .wheel-container{position:relative;opacity:0}
 .wheel{position:relative;width:370px;height:370px;touch-action:none}
 .wheel-item{position:absolute;border-radius:50%;overflow:hidden;will-change:transform;cursor:pointer;background:#0a0a0a}
 .wheel-item video{width:100%;height:100%;object-fit:cover;pointer-events:none}
 
-/* Glass Section */
-.glass-section{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 28px;min-height:75dvh;overflow:hidden;opacity:0;transform:translateY(36px);transition:opacity 1.4s cubic-bezier(0.16,1,0.3,1),transform 1.4s cubic-bezier(0.16,1,0.3,1)}
-.glass-section.revealed{opacity:1;transform:translateY(0)}
-.glass-section::before{content:'';position:absolute;inset:-60px;background:radial-gradient(ellipse at 50% 30%,rgba(100,70,30,0.1),transparent 70%);pointer-events:none}
-.glass-section>*{position:relative;z-index:1}
-.glass-welcome{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-bottom:28px;letter-spacing:0.02em;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s}
-.glass-headline{font-size:34px;font-weight:500;line-height:1.08;letter-spacing:-0.025em;margin-bottom:12px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s}
-.glass-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;max-width:300px;margin-bottom:28px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.45s}
-.glass-section .cta-btn{opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s,transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s}
-.glass-section.revealed .glass-welcome,.glass-section.revealed .glass-headline,.glass-section.revealed .glass-sub,.glass-section.revealed .cta-btn{opacity:1;transform:translateY(0)}
+/* Hero overlay */
+.hero-overlay{position:absolute;left:0;right:0;bottom:0;height:50%;background:#000;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 28px 0}
+.hero-welcome{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.6);margin-bottom:20px;letter-spacing:0.02em;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.hero-headline{font-size:34px;font-weight:500;line-height:1.08;letter-spacing:-0.025em;margin-bottom:12px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.hero-sub{font-family:'NeueHaasText','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.5;max-width:300px;margin-bottom:28px;opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.hero-overlay .cta-btn{opacity:0;transform:translateY(16px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1)}
+.hero-overlay.entered .hero-welcome{opacity:1;transform:translateY(0);transition-delay:0.15s}
+.hero-overlay.entered .hero-headline{opacity:1;transform:translateY(0);transition-delay:0.3s}
+.hero-overlay.entered .hero-sub{opacity:1;transform:translateY(0);transition-delay:0.45s}
+.hero-overlay.entered .cta-btn{opacity:1;transform:translateY(0);transition-delay:0.6s}
 .cta-btn{display:inline-flex;align-items:center;gap:14px;padding:15px 36px;background:#fff;color:#000;border:none;border-radius:100px;font-family:inherit;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:opacity 0.2s,transform 0.2s}
 .cta-btn:hover{opacity:0.9;transform:scale(1.02)}
 .cta-btn:active{opacity:0.8;transform:scale(0.98)}
@@ -118,9 +118,9 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 .footer-links a:hover{color:#fff}
 
 @media(min-width:768px){
-  .hero{height:90dvh}
-  .glass-headline{font-size:44px}
-  .glass-sub{font-size:16px;max-width:400px}
+  .hero{height:100dvh}
+  .hero-headline{font-size:44px}
+  .hero-sub{font-size:16px;max-width:400px}
   .carousel-circle{width:260px;height:260px}
   .carousel-item{width:260px}
   .carousel-track{gap:18px;padding:0 calc(50vw - 130px)}
@@ -154,13 +154,12 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   <div class="wheel-container" id="wheelContainer">
     <div class="wheel" id="wheel"></div>
   </div>
-</section>
-
-<section class="glass-section" id="glassSection">
-  <p class="glass-welcome">Welcome to OZ.</p>
-  <h1 class="glass-headline">Stories Live Here.</h1>
-  <p class="glass-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
-  <a href="watch.html" class="cta-btn">Start Watching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+  <div class="hero-overlay" id="heroOverlay">
+    <p class="hero-welcome">Welcome to OZ.</p>
+    <h1 class="hero-headline">Stories Live Here.</h1>
+    <p class="hero-sub">Original films and episodic worlds from a new generation of filmmakers.</p>
+    <a href="watch.html" class="cta-btn">Start Watching <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+  </div>
 </section>
 
 <section class="browse-section" id="browse">
@@ -235,14 +234,11 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     'Type Cast':V+'COVER16-TYPECAST.mp4'
   };
 
-  // Preload all videos into cache
-  WHEEL.forEach(function(src){var l=document.createElement('link');l.rel='preload';l.as='video';l.href=src;document.head.appendChild(l)});
-
   function makeVideo(src){
     var v=document.createElement('video');
     v.src=src;v.muted=true;v.loop=true;v.playsInline=true;v.autoplay=true;
     v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');v.setAttribute('muted','');
-    v.preload='auto';
+    v.preload='metadata';
     v.addEventListener('canplay',function(){v.play().catch(function(){})},{once:true});
     return v;
   }
@@ -260,6 +256,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   var body=document.body;
   var header=document.getElementById('header');
   var wheelContainer=document.getElementById('wheelContainer');
+  var heroOverlay=document.getElementById('heroOverlay');
   var isDesktop=window.innerWidth>=768;
 
   function entrance(){
@@ -275,6 +272,10 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
       wheelContainer.style.transition='opacity 1.4s cubic-bezier(0.16,1,0.3,1)';
       wheelContainer.style.opacity='1';
     },500);
+
+    setTimeout(function(){
+      heroOverlay.classList.add('entered');
+    },700);
   }
   requestAnimationFrame(function(){requestAnimationFrame(entrance)});
 
@@ -303,20 +304,28 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     }
   }
 
+  var wVisible=true,wRafId=0;
   function animWheel(){
+    if(!wVisible){wRafId=0;return}
     if(!wDrag){wAngle+=wAuto+wVel;wVel*=0.95;if(wVel>-0.00003&&wVel<0.00003)wVel=0}
     layoutWheel();
-    requestAnimationFrame(animWheel);
+    wRafId=requestAnimationFrame(animWheel);
   }
 
   wheel.addEventListener('pointerdown',function(e){wDrag=true;wLastX=e.clientX;wVel=0;wLastT=performance.now();wheel.setPointerCapture(e.pointerId)});
   wheel.addEventListener('pointermove',function(e){if(!wDrag)return;var dx=e.clientX-wLastX;var now=performance.now();var dt=now-wLastT||1;wAngle+=dx*0.004;wVel=(dx*0.002)/(dt/16);wLastX=e.clientX;wLastT=now});
   wheel.addEventListener('pointerup',function(){wDrag=false});
   wheel.addEventListener('pointercancel',function(){wDrag=false});
+
+  var heroEl=document.getElementById('hero');
+  new IntersectionObserver(function(entries){
+    wVisible=entries[0].isIntersecting;
+    if(wVisible&&!wRafId)wRafId=requestAnimationFrame(animWheel);
+  },{threshold:0}).observe(heroEl);
   animWheel();
 
   // === SCROLL REVEAL (re-triggers) ===
-  var revealEls=document.querySelectorAll('.glass-section,.browse-section,.roulette-section,.footer-cta');
+  var revealEls=document.querySelectorAll('.browse-section,.roulette-section,.footer-cta');
   var revealObs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting)e.target.classList.add('revealed');
@@ -349,7 +358,7 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   // === CAROUSELS ===
   function buildCarousel(id,data){
     var track=document.getElementById(id);
-    for(var s=0;s<5;s++){
+    for(var s=0;s<3;s++){
       data.forEach(function(item){
         var el=document.createElement('a');
         el.className='carousel-item';
@@ -368,14 +377,14 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
 
     var itemW=isDesktop?278:204;
     var oneSetW=data.length*itemW;
-    track.scrollLeft=oneSetW*2;
+    track.scrollLeft=oneSetW;
 
     var ticking=false;
     track.addEventListener('scroll',function(){
       if(!ticking){requestAnimationFrame(function(){
         var sl=track.scrollLeft;
-        if(sl<oneSetW)track.scrollLeft+=oneSetW;
-        else if(sl>oneSetW*3)track.scrollLeft-=oneSetW;
+        if(sl<oneSetW*0.5)track.scrollLeft+=oneSetW;
+        else if(sl>oneSetW*1.5)track.scrollLeft-=oneSetW;
         applySpatial(track);
         ticking=false;
       });ticking=true}
@@ -469,8 +478,10 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
   }
 
   var rSnapTarget=null;
+  var rVisible=false,rRafId=0;
 
   function animRoulette(){
+    if(!rVisible&&!rSpinning&&rSnapTarget===null){rRafId=0;return}
     if(rSpinning){
       rAngle+=rSpinVel;
       rSpinVel*=0.985;
@@ -493,14 +504,13 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
         rAngle+=d*0.1;
       }
     }else if(rDrag){
-      // driven by pointer
     }else if(!rStopped){
       rAngle+=rAuto+rDragVel;
       rDragVel*=0.95;
       if(rDragVel>-0.00003&&rDragVel<0.00003)rDragVel=0;
     }
     layoutRoulette();
-    requestAnimationFrame(animRoulette);
+    rRafId=requestAnimationFrame(animRoulette);
   }
 
   // Touch/drag on roulette
@@ -550,7 +560,24 @@ body{font-family:'NeueHaasDisplay','Helvetica Neue',Helvetica,Arial,sans-serif;b
     setTimeout(doSpin,200);
   });
 
+  var rouletteSec=document.querySelector('.roulette-section');
+  new IntersectionObserver(function(entries){
+    rVisible=entries[0].isIntersecting;
+    if(rVisible&&!rRafId)rRafId=requestAnimationFrame(animRoulette);
+  },{threshold:0}).observe(rouletteSec);
   animRoulette();
+
+  // === VIDEO VISIBILITY (pause off-screen videos) ===
+  var vidObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      var v=e.target;
+      if(e.isIntersecting){v.play().catch(function(){})}
+      else{v.pause()}
+    });
+  },{threshold:0,rootMargin:'200px 0px'});
+  setTimeout(function(){
+    document.querySelectorAll('video').forEach(function(v){vidObs.observe(v)});
+  },2000);
 
   // === SEARCH (debounced) ===
   var searchOverlay=document.getElementById('searchOverlay');
